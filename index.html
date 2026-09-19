@@ -7,95 +7,761 @@
     <style>
         :root {
             --primary: #1a365d;
-            --accent: #2b6cb0;
-            --danger: #c53030;
-            --warning: #dd6b20;
-            --success: #2f855a;
+            --primary-light: #2b6cb0;
+            --accent: #d69e2e;
             --bg: #f7fafc;
             --card-bg: #ffffff;
             --text: #2d3748;
+            --text-muted: #718096;
+            --border: #e2e8f0;
+            --easy: #2f855a;
+            --easy-bg: #f0fff4;
+            --medium: #dd6b20;
+            --medium-bg: #fffaf0;
+            --high: #c53030;
+            --high-bg: #fff5f5;
         }
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: var(--bg); color: var(--text); line-height: 1.6; margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        header { background: var(--primary); color: white; padding: 24px; border-radius: 12px; margin-bottom: 24px; }
-        h1 { margin: 0 0 8px 0; font-size: 1.8rem; }
-        .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 0.85rem; color: white; margin-right: 6px; }
-        .badge-easy { background: var(--success); }
-        .badge-medium { background: var(--warning); }
-        .badge-high { background: var(--danger); }
-        .card { background: var(--card-bg); border-radius: 8px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
-        table { width: 100%; border-collapse: collapse; margin: 16px 0; }
-        th, td { border: 1px solid #e2e8f0; padding: 10px; text-align: left; }
-        th { background: #edf2f7; }
-        details { background: #f8fafc; border: 1px solid #cbd5e0; border-radius: 6px; padding: 12px; margin-top: 12px; }
-        summary { font-weight: bold; cursor: pointer; color: var(--accent); }
-        .notes-box { background: #ebf8ff; border: 1px solid #90cdf4; border-radius: 8px; padding: 16px; margin-top: 24px; }
-        textarea { width: 100%; height: 100px; padding: 8px; border-radius: 4px; border: 1px solid #cbd5e0; margin-top: 8px; }
-        button { background: var(--accent); color: white; border: none; padding: 10px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; }
-        button:hover { background: var(--primary); }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 16px;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+        }
+
+        header {
+            background: linear-gradient(135deg, #1a365d 0%, #2b6cb0 100%);
+            color: white;
+            padding: 28px 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        header h1 {
+            font-size: 1.9rem;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+
+        header p {
+            font-size: 0.95rem;
+            opacity: 0.9;
+        }
+
+        .meta-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 14px;
+        }
+
+        .pill {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+            font-weight: 600;
+        }
+
+        .card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 22px;
+            margin-bottom: 24px;
+            border: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+        }
+
+        .card h2 {
+            font-size: 1.35rem;
+            color: var(--primary);
+            margin-bottom: 16px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        .badge-easy { background: var(--easy-bg); color: var(--easy); border: 1px solid var(--easy); }
+        .badge-medium { background: var(--medium-bg); color: var(--medium); border: 1px solid var(--medium); }
+        .badge-high { background: var(--high-bg); color: var(--high); border: 1px solid var(--high); }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 14px 0;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border);
+            padding: 10px 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #edf2f7;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .diagram-box {
+            background: #1e293b;
+            color: #38bdf8;
+            font-family: "Courier New", Courier, monospace;
+            padding: 18px;
+            border-radius: 8px;
+            overflow-x: auto;
+            white-space: pre;
+            font-size: 0.82rem;
+            line-height: 1.3;
+            margin: 16px 0;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 { grid-template-columns: 1fr; }
+        }
+
+        .stage-box {
+            border-left: 5px solid var(--primary-light);
+            background: #ffffff;
+            border-top: 1px solid var(--border);
+            border-right: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 18px;
+            margin-bottom: 18px;
+        }
+
+        .stage-box.easy { border-left-color: var(--easy); }
+        .stage-box.medium { border-left-color: var(--medium); }
+        .stage-box.high { border-left-color: var(--high); }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .stage-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .list-check {
+            list-style: none;
+            margin: 10px 0;
+        }
+
+        .list-check li {
+            position: relative;
+            padding-left: 24px;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+
+        .list-check li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: var(--easy);
+            font-weight: bold;
+        }
+
+        .watch-out {
+            background: #fff5f5;
+            border: 1px solid #feb2b2;
+            color: #9b2c2c;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            margin: 10px 0;
+            font-weight: 600;
+        }
+
+        .golden-step {
+            background: #edf2f7;
+            border-left: 4px solid var(--primary-light);
+            padding: 10px 14px;
+            margin: 6px 0;
+            border-radius: 0 6px 6px 0;
+            font-size: 0.92rem;
+        }
+
+        details {
+            background: #f8fafc;
+            border: 1px solid #cbd5e0;
+            border-radius: 6px;
+            padding: 12px 16px;
+            margin-top: 12px;
+        }
+
+        summary {
+            font-weight: 700;
+            cursor: pointer;
+            color: var(--primary-light);
+            outline: none;
+        }
+
+        summary:hover {
+            color: var(--primary);
+        }
+
+        details div {
+            margin-top: 10px;
+            font-size: 0.9rem;
+            color: #4a5568;
+            line-height: 1.5;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary-light);
+            cursor: pointer;
+        }
+
+        .notes-section {
+            background: #ebf8ff;
+            border: 1px solid #90cdf4;
+            border-radius: 8px;
+            padding: 18px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 90px;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #cbd5e0;
+            margin-top: 8px;
+            font-family: inherit;
+        }
+
+        button {
+            background: var(--primary-light);
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        button:hover {
+            background: var(--primary);
+        }
+
+        .note-card {
+            background: white;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 10px;
+            border-left: 4px solid var(--primary-light);
+            font-size: 0.88rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 30px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>🛠️ DIY 15mm Two-Pipe Heating Replacement Guide</h1>
-            <p><strong>Glow-worm Compact 24c-AS/1</strong> • 1-Week School Holiday Schedule • Solo Execution</p>
-        </header>
 
-        <section class="card">
-            <h2>📅 1-Week School Holiday Schedule</h2>
-            <p>Total estimated solo work time: <strong>~21–23 Hours</strong> across 7 days.</p>
-            <table>
-                <tr><th>Day</th><th>Stage</th><th>Solo Time</th><th>Action</th><th>Type</th></tr>
-                <tr><td>Mon</td><td>Stage 1: Approvals</td><td>1–2 hrs</td><td>Plumber brief & leasehold consent</td><td><span class="badge badge-easy">🟢 DIY</span></td></tr>
-                <tr><td>Tue</td><td>Stage 2: Measurement</td><td>2 hrs</td><td>Tape measure ~22.8m route</td><td><span class="badge badge-easy">🟢 DIY</span></td></tr>
-                <tr><td>Wed</td><td>Stage 3 & 4: Drain & Drill</td><td>4.5 hrs</td><td>Drain system, Truvo scan, drill holes</td><td><span class="badge badge-medium">🟡 Careful</span></td></tr>
-                <tr><td>Thu</td><td>Stage 5: Push-Fit Prep</td><td>4 hrs</td><td>5-Step Golden Sequence trunk assembly</td><td><span class="badge badge-medium">🟡 Careful</span></td></tr>
-                <tr><td>Fri</td><td>Stage 6, 7 & 8: Branches & Boiler</td><td>7 hrs</td><td>R1/R2 tees, R3 elbows, Boiler reconnection</td><td><span class="badge badge-high">🔴 Supervised</span></td></tr>
-                <tr><td>Sat</td><td>Stage 9: Pressure Test</td><td>2.5 hrs</td><td>1.5 bar cold/hot test & ADEY MC1 dosing</td><td><span class="badge badge-high">🔴 Supervised</span></td></tr>
-                <tr><td>Sun</td><td>Stage 10: Boxing-In</td><td>4–5 hrs</td><td>Timber battens & MDF access hatches</td><td><span class="badge badge-easy">🟢 DIY</span></td></tr>
-            </table>
-        </section>
+<div class="container">
 
-        <section class="card">
-            <h2>🛒 Screwfix Shopping List</h2>
-            <ul>
-                <li><strong>15mm Copper Pipe 3m (17 Lengths / 51m):</strong> Code 98683 (~45.6m + 10% waste)</li>
-                <li><strong>Tectite Sprint 15mm Equal Tee (6 units):</strong> Code 5189G (R1 & R2 branches + spares)</li>
-                <li><strong>Tectite Sprint 15mm 90° Elbow (12 units):</strong> Code 6486G (Corners & R3 terminal)</li>
-                <li><strong>Tectite Sprint 15mm Equal Coupler (8 units):</strong> Code 5808G (Joining & boiler stubs)</li>
-                <li><strong>15mm Pipe Clips (9 packs / ~90 clips):</strong> Code 2716J (Spaced every 600mm)</li>
-                <li><strong>Rothenberger Pipeslice 15mm Cutter:</strong> Code 36198 (Essential — no hacksaws!)</li>
-            </ul>
-        </section>
+    <header>
+        <h1>🛠️ DIY 15mm Two-Pipe Heating Replacement</h1>
+        <p>Glow-worm Compact 24c-AS/1 (H-GB) • 1-Week School Holiday Solo Guide</p>
+        <div class="meta-pills">
+            <span class="pill">Property: First-Floor Leasehold Flat</span>
+            <span class="pill">Boiler Serial: 21222600100401053100010227N4</span>
+            <span class="pill">Route: 15mm Rigid Copper Throughout</span>
+            <span class="pill">Est. Time: ~21–23 Hours Solo</span>
+        </div>
+    </header>
 
-        <section class="card">
-            <h2>📝 Notes & Amendment Facility</h2>
-            <div class="notes-box">
-                <label for="newNote"><strong>Add Amendment / Correction Note:</strong></label>
-                <textarea id="newNote" placeholder="Enter note or feedback for plumber review..."></textarea>
-                <button onclick="addNote()">Save Note</button>
-                <div id="notesList" style="margin-top: 16px;"></div>
+    <!-- SECTION 1: 1-WEEK SCHEDULE -->
+    <section class="card">
+        <h2>📅 1-Week School Holiday Solo Schedule</h2>
+        <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:12px;">Paced for 1 person working alone across 7 days (~21–23 total hours).</p>
+        <table>
+            <thead>
+                <tr>
+                    <th>Day</th>
+                    <th>Stage & Scope</th>
+                    <th>Solo Time</th>
+                    <th>Primary Task</th>
+                    <th>Supervision Badge</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><strong>Day 1 (Mon)</strong></td>
+                    <td>Stage 1: Approvals</td>
+                    <td>1–2 hrs</td>
+                    <td>Review 15mm plan with plumber; written leasehold consent.</td>
+                    <td><span class="badge badge-easy">🟢 DIY-Friendly</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 2 (Tue AM)</strong></td>
+                    <td>Stage 2: Measurement</td>
+                    <td>2 hrs</td>
+                    <td>Tape measure ~22.8m route on site (~50m pipe total).</td>
+                    <td><span class="badge badge-easy">🟢 DIY-Friendly</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 2 (Tue PM)</strong></td>
+                    <td>Procurement Pick-up</td>
+                    <td>1.5 hrs</td>
+                    <td>Collect Screwfix order (17 × 3m copper, Tectite, tools).</td>
+                    <td><span class="badge badge-easy">🟢 DIY-Friendly</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 3 (Wed AM)</strong></td>
+                    <td>Stage 3: Draining</td>
+                    <td>1.5 hrs</td>
+                    <td>Isolate fuse spur, cool system <30°C, attach drain hose.</td>
+                    <td><span class="badge badge-medium">🟡 DIY if Careful</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 3 (Wed PM)</strong></td>
+                    <td>Stage 4: Drilling & Clips</td>
+                    <td>3 hrs</td>
+                    <td>Bosch Truvo wall scan, drill sleeved holes, clips @ 600mm.</td>
+                    <td><span class="badge badge-easy">🟢 DIY-Friendly</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 4 (Thu)</strong></td>
+                    <td>Stage 5: Main Trunks</td>
+                    <td>4 hrs</td>
+                    <td>5-Step Golden Sequence (Pipeslice, deburr, 23mm depth).</td>
+                    <td><span class="badge badge-medium">🟡 DIY if Careful</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 5 (Fri AM)</strong></td>
+                    <td>Stage 6 & 7: Branches</td>
+                    <td>5 hrs</td>
+                    <td>Equal tees for R1 & R2; terminal 90° elbows for R3.</td>
+                    <td><span class="badge badge-medium">🟡 DIY if Careful</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 5 (Fri PM)</strong></td>
+                    <td>Stage 8: Boiler Connection</td>
+                    <td>2 hrs</td>
+                    <td>Plumber verifies CH stubs; fit Tectite equal couplers.</td>
+                    <td><span class="badge badge-high">🔴 Plumber Supervised</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 6 (Sat)</strong></td>
+                    <td>Stage 9: Pressure Test</td>
+                    <td>2.5 hrs</td>
+                    <td>1.5 bar cold/hot test, blue roll tissue check, ADEY MC1.</td>
+                    <td><span class="badge badge-high">🔴 Plumber Supervised</span></td>
+                </tr>
+                <tr>
+                    <td><strong>Day 7 (Sun)</strong></td>
+                    <td>Stage 10: Boxing-In</td>
+                    <td>4–5 hrs</td>
+                    <td>Timber battens, 6mm MDF panels, access hatches over fittings.</td>
+                    <td><span class="badge badge-easy">🟢 DIY-Friendly</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- SECTION 2: SHOPPING LIST -->
+    <section class="card">
+        <h2>🛒 Screwfix & Procurement Shopping List</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">⚠️ <em>Do NOT purchase pipe/fittings until plumber approves route on site. Codes are illustrative.</em></p>
+        
+        <div class="grid-2">
+            <div>
+                <h3 style="font-size:1.05rem; color:var(--primary); margin-bottom:8px;">🔴 Essential Installation Materials</h3>
+                <ul style="font-size:0.9rem; padding-left:18px; line-height:1.7;">
+                    <li><strong>15mm Copper Pipe 3m (17 Lengths / 51m):</strong> Code 98683 (~45.6m + 10% waste)</li>
+                    <li><strong>Tectite Sprint 15mm Equal Tee (6 Units):</strong> Code 5189G (R1 & R2 mid-loop tees + 2 spare)</li>
+                    <li><strong>Tectite Sprint 15mm 90° Elbow (12 Units):</strong> Code 6486G (Corners & R3 terminal + 2 spare)</li>
+                    <li><strong>Tectite Sprint 15mm Equal Coupler (8 Units):</strong> Code 5808G (Joining 3m lengths & boiler stubs)</li>
+                    <li><strong>15mm Pipe Clips (9 Packs / ~90 Clips):</strong> Code 2716J (Spaced every 600mm)</li>
+                    <li><strong>15mm Heating Pipe Insulation (~50m):</strong> Approved Doc L compliance</li>
+                </ul>
             </div>
-        </section>
-    </div>
+            <div>
+                <h3 style="font-size:1.05rem; color:var(--primary); margin-bottom:8px;">🔧 Tools, Consumables & Testing</h3>
+                <ul style="font-size:0.9rem; padding-left:18px; line-height:1.7;">
+                    <li><strong>Rothenberger Pipeslice 15mm Cutter:</strong> Code 36198 (Essential — no hacksaws!)</li>
+                    <li><strong>Deburring Reamer Tool:</strong> Smooths internal & external tube burrs</li>
+                    <li><strong>Bosch Truvo Wall Scanner:</strong> Code 455TU (Scans both wall sides for wires)</li>
+                    <li><strong>ADEY MC1 Protector Inhibitor 500ml:</strong> Code 359KJ (Corrosion protection)</li>
+                    <li><strong>Grade 00 Fine Steel Wool:</strong> Code 227RL (Cleans pipe ends)</li>
+                    <li><strong>Blue Roll Tissue & Marker Pen:</strong> For 23mm depth lines & wipe leak checks</li>
+                    <li><strong>25×38mm Battens & 6mm MDF:</strong> For post-commissioning boxing-in</li>
+                </ul>
+            </div>
+        </div>
+    </section>
 
-    <script>
-        function addNote() {
-            const text = document.getElementById('newNote').value;
-            if (!text) return;
-            const notes = JSON.parse(localStorage.getItem('diy_heating_notes') || '[]');
-            notes.push({ text: text, date: new Date().toLocaleDateString() });
-            localStorage.setItem('diy_heating_notes', JSON.stringify(notes));
-            document.getElementById('newNote').value = '';
-            renderNotes();
+    <!-- SECTION 3: FLOOR PLAN SCHEMATIC -->
+    <section class="card">
+        <h2>🏛️ System Route & Floor Plan Blueprint</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted);">Strict tracing of <code>flow diagram.png</code> (Authoritative geometry — no estimated rooms):</p>
+
+        <div class="diagram-box">
+========================================================================================
+                               FLOOR PLAN & ROUTING SCHEMATIC
+          (Strict Tracing of flow diagram.png — Authoritative Engineering Drawing)
+========================================================================================
+
+           ┌─────────────────────────┬─────────────────────────────────────────┐
+           │ BOILER [Glow-worm 24c] │                                         │
+           │ (Kitchen 2.72m x 2.57m) │            RECEPTION ROOM               │
+           │                         │           (4.90m x 3.51m)               │
+           │  [CH Flow & Return]     │                                         │
+           └───┬─────────────────┬───┴────────────────────────────────────┬────┘
+               │                 │                                        │
+               │ (Red Flow Main) │                                      [Rad 1]
+               │ (Blue Return)   │                                    (Equal Tees)
+               │                 │                                        │
+           ┌───┴─────────────────┴───┬────────────────────────────────────┴────┐
+           │        BATHROOM         │              HALLWAY / ENTRY            │
+           └─────────────────────────┴───┬────────────────────────────────────┬┘
+                                         │                                    │
+                                         │                                    │
+           ┌─────────────────────────────┴─────┬──────────────────────────────┴┐
+           │          BEDROOM 1                │          BEDROOM 2            │
+           │  (Lower-Left 2.74m x 2.08m)       │  (Lower-Right 3.78m x 2.84m)  │
+           │                                   │                               │
+           │            [Rad 2]                │            [Rad 3]            │
+           │          (Equal Tees)             │       (Terminal Elbows)       │
+           └───────────────────────────────────┴───────────────────────────────┘
+
+========================================================================================
+LEGEND & ROUTE DATA:
+  🔴 Red Trunk  : 15mm Central Heating Flow Main
+  🔵 Blue Trunk : 15mm Central Heating Return Main
+  One-Way Route : ~22.8m | Both Pipes: ~45.6m | Purchase Order: 17 x 3m = 51m
+  Safety Callout: ⚠️ INFORMATION REQUIRED — SITE VERIFICATION REQUIRED (Boiler Stubs)
+========================================================================================
+        </div>
+    </section>
+
+    <!-- SECTION 4: 10-STAGE WORKFLOW -->
+    <section class="card">
+        <h2>🛠️ 10-Stage ADHD Interactive Workflow</h2>
+
+        <!-- STAGE 1 -->
+        <div class="stage-box easy">
+            <div class="stage-header">
+                <div class="stage-title">Stage 1: Pre-Work Approvals & Plumber Brief</div>
+                <span class="badge badge-easy">🟢 DIY-Friendly (1–2 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Secure written leasehold/insurer approval and plumber verification of the 15mm plan.</p>
+            <ul class="list-check">
+                <li>Print review summary and floor plan.</li>
+                <li>Obtain written freeholder consent and notify building insurer.</li>
+                <li>Have plumber verify 15mm pipe sizing and stub identification strategy on site.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Do NOT buy pipe or fittings before written plumber sign-off!</div>
+            <details>
+                <summary>💡 Stage 1 Deep-Dive & Source Text</summary>
+                <div>
+                    Because this is a first-floor flat above another dwelling, water leaks represent a critical liability risk. Obtain written consent from the freeholder or managing agent and notify building insurers before any work begins. Present the provisional 15mm two-pipe schematic to your heating engineer to verify radiator outputs, pump capacity, and pipe sizing before purchasing any materials. The Glow-worm documentation identifies separate central-heating flow and return connections at the boiler; the engineer must confirm how those appliance connections transition to the existing external pipework.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 2 -->
+        <div class="stage-box easy">
+            <div class="stage-header">
+                <div class="stage-title">Stage 2: Route Measurement & Physical Sizing</div>
+                <span class="badge badge-easy">🟢 DIY-Friendly (2 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Measure parallel 15mm flow and return runs across all rooms with tape measure.</p>
+            <ul class="list-check">
+                <li>Measure boiler drop: 1.2m (×2 = 2.4m).</li>
+                <li>Measure Kitchen: 2.7m (×2 = 5.4m). Reception Room: 4.9m + 1.5m (×2 = 12.8m).</li>
+                <li>Measure Bedroom 1: 1.5m + 2.1m (×2 = 7.2m). Bedroom 2: 2.5m (×2 = 5.0m).</li>
+                <li>Add branch tails (~2.0m) and wall penetrations (~1.8m).</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Measure site vertical drops and valve centers; do not rely on room dimensions alone!</div>
+            <details>
+                <summary>💡 Stage 2 Deep-Dive & Source Text</summary>
+                <div>
+                    Total One-Way Route: ~22.8m. Total Both Pipes (Flow + Return): ~45.6m. With 10% cutting waste allowance: ~50m. Recommended Purchase Order: 17 × 3m lengths = 51m total rigid 15mm copper pipe.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 3 -->
+        <div class="stage-box medium">
+            <div class="stage-header">
+                <div class="stage-title">Stage 3: Safe System Draining & Isolation</div>
+                <span class="badge badge-medium">🟡 DIY if Careful (1.5 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Isolate electrical power, cool boiler <30°C, attach hose, and safely drain system.</p>
+            <ul class="list-check">
+                <li>Switch off boiler fused spur and confirm dead with voltage tester.</li>
+                <li>Allow water to cool below 30°C. Attach hose to lowest drain point.</li>
+                <li>Open bleed valves starting from top radiator working down.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Black magnetite sludge ruins carpets—protect floor coverings with wet vacuum & towels!</div>
+            <details>
+                <summary>💡 Stage 3 Deep-Dive & Source Text</summary>
+                <div>
+                    Electrical isolation prevents the boiler pump or burner from firing while dry. Draining from the lowest point creates a siphon effect. Opening bleed valves breaks vacuum locks.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 4 -->
+        <div class="stage-box easy">
+            <div class="stage-header">
+                <div class="stage-title">Stage 4: Cable Scanning & Wall Drilling</div>
+                <span class="badge badge-easy">🟢 DIY-Friendly (3 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Scan partition walls with Bosch Truvo, drill sleeved penetrations, and fit clips @ 600mm.</p>
+            <ul class="list-check">
+                <li>Scan BOTH sides of partition walls for hidden electric cables/metal studs.</li>
+                <li>Drill wall penetrations (hole size confirmed with plumber based on sleeve/insulation).</li>
+                <li>Install rubber-lined cushioned 15mm clips every 600mm along horizontal runs.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Never drill near sockets without scanning both wall faces!</div>
+            <details>
+                <summary>💡 Stage 4 Deep-Dive & Source Text</summary>
+                <div>
+                    Confirm required wall-penetration diameter and sleeve method with the plumber. Spacing cushioned rubber-lined clips every 600mm absorbs thermal expansion movement and eliminates ticking noises.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 5 -->
+        <div class="stage-box medium">
+            <div class="stage-header">
+                <div class="stage-title">Stage 5: Push-Fit Assembly — "The Golden Sequence"</div>
+                <span class="badge badge-medium">🟡 DIY if Careful (4 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Assemble 15mm main trunks using the strict 5-step push-fit procedure.</p>
+            <div class="golden-step"><strong>Step 1: CUT SQUARE</strong> — Rothenberger 15mm Pipeslice (Never use a hacksaw!)</div>
+            <div class="golden-step"><strong>Step 2: DEBURR</strong> — Ream internal & external burrs smooth with deburring tool</div>
+            <div class="golden-step"><strong>Step 3: CLEAN & INSPECT</strong> — Wipe pipe end; remove swarf and debris</div>
+            <div class="golden-step"><strong>Step 4: MARK 23mm DEPTH</strong> — Permanent marker depth line @ ~23mm</div>
+            <div class="golden-step"><strong>Step 5: PUSH TO MARK</strong> — Push firmly into Tectite Sprint collar until line meets socket rim</div>
+            <div class="watch-out">⚠️ Watch Out: Hacksaws leave ragged edges that slice internal O-rings, causing leaks!</div>
+            <details>
+                <summary>💡 Stage 5 Deep-Dive & Source Text</summary>
+                <div>
+                    Tectite Sprint push-fit fittings use a stainless steel grab ring and EPDM O-ring seal. Clean, deburred pipe and accurate 23mm depth marking ensure the O-ring seals properly without being nicked.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 6 & 7 -->
+        <div class="stage-box medium">
+            <div class="stage-header">
+                <div class="stage-title">Stages 6 & 7: Radiator Branch Connections</div>
+                <span class="badge badge-medium">🟡 DIY if Careful (5 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Connect R1 & R2 using 15×15×15mm equal tees; terminate R3 using 90° elbows.</p>
+            <ul class="list-check">
+                <li>Fit 15×15×15mm equal tees on main flow/return trunks for Radiator #1 (Reception) and Radiator #2 (Bed 1).</li>
+                <li>Fit 90° terminal elbows on flow/return trunks for Radiator #3 (Bed 2, end of circuit).</li>
+                <li>Mount TRVs on flow side (provisional — confirm orientation with engineer on site).</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Do NOT connect radiators in series! Each radiator must bridge independently.</div>
+            <details>
+                <summary>💡 Stage 6 & 7 Deep-Dive & Source Text</summary>
+                <div>
+                    In a two-pipe system, each radiator acts as a parallel bridge. Main trunks carry hot water forward. At Radiator #3 in Bedroom 2 (furthest point), no continuation tees are used—90° elbows turn the flow trunk up into the TRV and return trunk up into the lockshield valve.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 8 -->
+        <div class="stage-box high">
+            <div class="stage-header">
+                <div class="stage-title">Stage 8: Boiler Underside Reconnection</div>
+                <span class="badge badge-high">🔴 Plumber Supervised (2 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Connect 15mm flow and return trunks to verified boiler stubs using Tectite couplers.</p>
+            <ul class="list-check">
+                <li>Plumber positively identifies CH Flow & Return stubs on site.</li>
+                <li>Deburr boiler stubs and mark 23mm insertion depth.</li>
+                <li>Push 15mm Tectite Sprint equal couplers home to connect new trunks.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Do NOT touch gas (yellow handle) or DHW stubs. Do NOT cut pipes based on diagrams alone!</div>
+            <details>
+                <summary>💡 Stage 8 Deep-Dive & Source Text</summary>
+                <div>
+                    The heating engineer must positively identify the boiler's central-heating flow and return connections using the verified appliance manual, physical pipe tracing, and temperature/flow checks. Homeowner will NOT cut gas or flue connections.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 9 -->
+        <div class="stage-box high">
+            <div class="stage-header">
+                <div class="stage-title">Stage 9: Pressure Testing & Chemical Dosing</div>
+                <span class="badge badge-high">🔴 Plumber Supervised (2.5 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Cold/hot 1.5 bar pressure test, blue roll tissue leak check, bleed, and dose ADEY MC1 inhibitor.</p>
+            <ul class="list-check">
+                <li>Refit cleaned BoilerMag magnetic filter canister.</li>
+                <li>Plumber conducts cold hydrostatic pressure test (1.0–1.5 bar).</li>
+                <li>Wipe every push-fit joint and valve with dry blue roll tissue paper to detect microscopic dampness.</li>
+                <li>Refill system, bleed all radiators, and dose ADEY MC1 inhibitor per BS 7593.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: Zero boxing-in until tissue paper stays 100% dry cold AND hot!</div>
+            <details>
+                <summary>💡 Stage 9 Deep-Dive & Source Text</summary>
+                <div>
+                    Blue roll tissue paper instantly turns dark when touching even a microscopic drop of water. Testing cold and hot ensures thermal expansion doesn't induce weeping at joints. Inhibitor prevents internal corrosion.
+                </div>
+            </details>
+        </div>
+
+        <!-- STAGE 10 -->
+        <div class="stage-box easy">
+            <div class="stage-header">
+                <div class="stage-title">Stage 10: Removable Boxing-In & Access Panels</div>
+                <span class="badge badge-easy">🟢 DIY-Friendly (4–5 hrs)</span>
+            </div>
+            <p><strong>🎯 Goal:</strong> Fit timber battens, 6mm MDF cover strips, and magnetic access hatches over every fitting.</p>
+            <ul class="list-check">
+                <li>Fit 25×38mm timber battens above and below insulated 15mm parallel pipes.</li>
+                <li>Screw 6mm MDF cover strips to battens (leaving 5–10mm end expansion gaps).</li>
+                <li>Cut removable access hatches over all tees, elbows, and couplers.</li>
+            </ul>
+            <div class="watch-out">⚠️ Watch Out: NEVER permanently glue or seal over fittings! Always leave removable access hatches.</div>
+            <details>
+                <summary>💡 Stage 10 Deep-Dive & Source Text</summary>
+                <div>
+                    Removable access hatches ensure that if a fitting ever needs maintenance, it can be inspected and serviced without destroying wall finishes or MDF panels.
+                </div>
+            </details>
+        </div>
+    </section>
+
+    <!-- SECTION 5: PLUMBER CHECKLIST -->
+    <section class="card">
+        <h2>📋 Final Plumber Inspection Checklist</h2>
+        <p style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;">Hand to heating engineer before restoring water supply & commissioning:</p>
+
+        <div class="checklist-item"><input type="checkbox" id="c1"> <label for="c1"><strong>Pipe Support:</strong> Rubber-lined cushioned clips fitted every 600mm along horizontal runs.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c2"> <label for="c2"><strong>Thermal Expansion:</strong> 5–10mm clearance gaps left at ends of boxing runs.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c3"> <label for="c3"><strong>Insertion Depth:</strong> Permanent marker lines visible at ~23mm fitting collars.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c4"> <label for="c4"><strong>Deburring:</strong> Pipe ends reamed, clean, and free of internal/external burrs.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c5"> <label for="c5"><strong>Valve Orientation:</strong> TRVs on flow side, Lockshields on return side (verified on site).</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c6"> <label for="c6"><strong>Boiler Stubs:</strong> Correct 15mm CH Flow and Return stubs reconnected above BoilerMag.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c7"> <label for="c7"><strong>Access Hatches:</strong> Removable inspection hatches present over all push-fit joints.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c8"> <label for="c8"><strong>Leak-Test Readiness:</strong> Every joint 100% dry under 1.5 bar cold and hot tissue test.</label></div>
+        <div class="checklist-item"><input type="checkbox" id="c9"> <label for="c9"><strong>Compliance:</strong> Pipe insulated per Approved Doc L; wall penetrations sleeved.</label></div>
+
+        <div style="margin-top:20px; padding:16px; background:#f1f5f9; border-radius:8px; border:1px solid #cbd5e0;">
+            <h3 style="font-size:1rem; color:var(--primary); margin-bottom:8px;">✍️ Engineer Sign-Off Block</h3>
+            <p style="font-size:0.88rem;"><strong>Verdict:</strong> [ &nbsp; ] Approved & Commissioned &nbsp;&nbsp;&nbsp;&nbsp; [ &nbsp; ] Changes Required</p>
+            <p style="font-size:0.88rem; margin-top:6px;"><strong>Engineer Name:</strong> ___________________________ <strong>Gas Safe #:</strong> ___________________</p>
+            <p style="font-size:0.88rem; margin-top:6px;"><strong>Date:</strong> _______________ <strong>Signature:</strong> _________________________________________</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6: INTERACTIVE NOTES FACILITY -->
+    <section class="card notes-section">
+        <h2>📝 Notes & Amendment Facility</h2>
+        <p style="font-size:0.9rem; color:#2b6cb0;">Add site corrections, plumber feedback, or team updates. Notes save to your browser's local storage:</p>
+        <textarea id="newNoteText" placeholder="Enter plumber feedback, site measurement adjustment, or installation note..."></textarea>
+        <button onclick="saveNote()">Save Note to Session</button>
+        <div id="notesContainer" style="margin-top:16px;"></div>
+    </section>
+
+    <footer>
+        <p>DIY 15mm Central Heating Pipe Replacement Guide • Version 4 Final</p>
+        <p>Single-File HTML Application ready for GitHub Pages hosting.</p>
+    </footer>
+
+</div>
+
+<script>
+    function saveNote() {
+        const text = document.getElementById('newNoteText').value.trim();
+        if (!text) return;
+        const notes = JSON.parse(localStorage.getItem('diy_heating_notes_v4') || '[]');
+        notes.push({
+            text: text,
+            date: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+        });
+        localStorage.setItem('diy_heating_notes_v4', JSON.stringify(notes));
+        document.getElementById('newNoteText').value = '';
+        displayNotes();
+    }
+
+    function displayNotes() {
+        const notes = JSON.parse(localStorage.getItem('diy_heating_notes_v4') || '[]');
+        const container = document.getElementById('notesContainer');
+        if (notes.length === 0) {
+            container.innerHTML = '<p style="font-size:0.85rem; color:#718096; italic;">No saved notes yet.</p>';
+            return;
         }
-        function renderNotes() {
-            const notes = JSON.parse(localStorage.getItem('diy_heating_notes') || '[]');
-            const container = document.getElementById('notesList');
-            container.innerHTML = notes.map(n => `<div style="background:white; padding:8px; border-radius:4px; margin-bottom:8px; border-left:4px solid #2b6cb0;"><strong>${n.date}:</strong> ${n.text}</div>`).join('');
-        }
-        renderNotes();
-    </script>
+        container.innerHTML = notes.map(n => `
+            <div class="note-card">
+                <strong>📅 ${n.date}:</strong> ${n.text}
+            </div>
+        `).join('');
+    }
+
+    // Initial render
+    displayNotes();
+</script>
+
 </body>
 </html>
