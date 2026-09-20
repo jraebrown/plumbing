@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 9 of 10: Pressure Testing - Central Heating Plan</title>
+    <style>
+        :root {
+            --stage-color: #FF6600;
+            --navy: #1F3864;
+            --light-bg: #F8FAFC;
+            --border: #CBD5E1;
+            --text-dark: #0F172A;
+            --easy: #22C55E;
+            --medium: #F59E0B;
+            --high: #EF4444;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER BAR */
+        header {
+            background-color: var(--stage-color);
+            color: #FFFFFF;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: #FFFFFF;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+
+        .nav-btn:hover {
+            background: rgba(255, 255, 255, 0.35);
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.01em;
+        }
+
+        .notes-btn {
+            background-color: rgba(255, 255, 255, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            position: relative;
+        }
+
+        .notes-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #FACC15;
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 0 6px #FACC15;
+        }
+
+        /* 3-COLUMN LAYOUT */
+        main {
+            display: grid;
+            grid-template-columns: 30% 45% 25%;
+            gap: 20px;
+            padding: 20px;
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1100px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* LEFT COLUMN: STAGE SUMMARY CARD */
+        .summary-card {
+            background-color: var(--stage-color);
+            color: #FFFFFF;
+            border-radius: 12px;
+            padding: 22px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.12);
+            height: fit-content;
+        }
+
+        .stage-num-big {
+            font-size: 3.5rem;
+            font-weight: 900;
+            line-height: 1;
+            opacity: 0.9;
+        }
+
+        .summary-title {
+            font-size: 1.4rem;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .summary-meta {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.88rem;
+            font-weight: 600;
+        }
+
+        .badge-pill {
+            background: rgba(255, 255, 255, 0.25);
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+        }
+
+        .summary-box-red {
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid rgba(239, 68, 68, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        .summary-box-green {
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.6);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+        }
+
+        /* CENTRE COLUMN: MAIN ILLUSTRATED CONTENT */
+        .content-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .illustration-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 16px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .steps-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .steps-card h3 {
+            font-size: 1.1rem;
+            color: var(--navy);
+            margin-bottom: 14px;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 6px;
+        }
+
+        .step-item {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+            line-height: 1.45;
+        }
+
+        .step-num {
+            background: var(--stage-color);
+            color: #FFFFFF;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .callout-box {
+            background: #E0F2FE;
+            border-left: 4px solid #0284C7;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+            color: #0369A1;
+        }
+
+        .warning-banner {
+            background: #FEF2F2;
+            border-left: 4px solid #EF4444;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            font-size: 0.88rem;
+            color: #991B1B;
+            font-weight: 600;
+        }
+
+        /* RIGHT COLUMN: CHECKLIST & TOOLS */
+        .right-col {
+            display: flex;
+            flex-direction: column;
+            gap: 18px;
+        }
+
+        .checklist-card {
+            background: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .checklist-card h3 {
+            font-size: 1.05rem;
+            color: var(--navy);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .progress-bar-bg {
+            background: #E2E8F0;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 14px;
+        }
+
+        .progress-bar-fill {
+            background: var(--stage-color);
+            height: 100%;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .check-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.88rem;
+        }
+
+        .check-row input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--stage-color);
+            cursor: pointer;
+            margin-top: 2px;
+        }
+
+        .btn-reset {
+            background: none;
+            border: none;
+            color: #64748B;
+            font-size: 0.75rem;
+            cursor: pointer;
+            text-decoration: underline;
+            margin-top: 10px;
+        }
+
+        .tools-card {
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .tools-card h4 {
+            font-size: 0.95rem;
+            color: var(--navy);
+            margin-bottom: 10px;
+        }
+
+        .tool-list {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+
+        .tool-list li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+            color: #334155;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #F1F5F9;
+            border-top: 1px solid var(--border);
+            padding: 12px 24px;
+            text-align: center;
+            font-size: 0.82rem;
+            color: #EF4444;
+            font-weight: 700;
+        }
+
+        /* MODAL OVERLAY FOR NOTES */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(15, 23, 42, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 520px;
+            padding: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #64748B;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            height: 160px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .btn-save {
+            background-color: var(--stage-color);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #E2E8F0;
+            color: #334155;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER BAR -->
+    <header>
+        <div class="nav-links">
+            <a href="index.html" class="nav-btn">← Index</a>
+            <a href="stage-8.html" class="nav-btn">← Prev</a>
+            <a href="stage-10.html" class="nav-btn">Next →</a>
+        </div>
+        <div class="header-title">Stage 9 of 10: Pressure Testing</div>
+        <div>
+            <button class="notes-btn" onclick="openNotesModal()">
+                📝 Stage Notes
+                <span class="notes-dot" id="notesDot"></span>
+            </button>
+        </div>
+    </header>
+
+    <!-- MAIN 3-COLUMN BODY -->
+    <main>
+        <!-- LEFT COLUMN: STAGE SUMMARY CARD -->
+        <section class="summary-card">
+            <div class="stage-num-big">09</div>
+            <div class="summary-title">Pressure Testing</div>
+            <div class="summary-meta">
+                <span>⏱ 3 hrs</span>
+                <span class="badge-pill">High Risk</span>
+            </div>
+            <div>
+                <strong>🎯 Stage Goal:</strong>
+                <p style="font-size:0.88rem; margin-top:4px; opacity:0.95;">Conduct hydrostatic pressure leak test at 1.5 bar, blue roll tissue wipe check, bleed system, and dose ADEY MC1 inhibitor.</p>
+            </div>
+            <div class="summary-box-red">
+                <strong>⚠️ Watch-out:</strong><br>
+                Do NOT box in any pipework until the system holds pressure cold AND hot with ZERO damp spots on tissue paper!
+            </div>
+            <div class="summary-box-green">
+                <strong>✅ Complete When:</strong><br>
+                System cold & hot pressure tested to 1.5 bar, all joints 100% dry under tissue wipe test, bled, and ADEY MC1 inhibitor dosed.
+            </div>
+        </section>
+
+        <!-- CENTRE COLUMN: MAIN ILLUSTRATED CONTENT -->
+        <section class="content-col">
+            <div class="illustration-card">
+                <svg viewBox="0 0 400 220" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="220" fill="#F8FAFC" rx="8"/>
+            <!-- Gauge Box -->
+            <g transform="translate(30, 30)">
+                <rect x="0" y="0" width="150" height="160" fill="#FFFFFF" stroke="#FF6600" stroke-width="2" rx="6"/>
+                <circle cx="75" cy="70" r="45" fill="#F8FAFC" stroke="#FF6600" stroke-width="3"/>
+                <!-- Gauge Needle @ 1.5 bar -->
+                <line x1="75" y1="70" x2="95" y2="45" stroke="#EF4444" stroke-width="3" stroke-linecap="round"/>
+                <circle cx="75" cy="70" r="5" fill="#1E293B"/>
+                <text x="75" y="100" font-size="12" font-weight="900" fill="#FF6600" text-anchor="middle">1.5 BAR</text>
+                <text x="75" y="140" font-size="10" font-weight="700" fill="#1E293B" text-anchor="middle">Cold & Hot Test</text>
+            </g>
+            <!-- Blue Roll Tissue Test -->
+            <g transform="translate(210, 30)">
+                <rect x="0" y="0" width="160" height="160" fill="#FFFFFF" stroke="#FF6600" stroke-width="2" rx="6"/>
+                <rect x="20" y="20" width="120" height="40" fill="#00B0F0" rx="4"/>
+                <text x="80" y="44" font-size="10" font-weight="800" fill="#FFFFFF" text-anchor="middle">BLUE ROLL TISSUE</text>
+                <text x="80" y="85" font-size="9" font-weight="700" fill="#1E293B" text-anchor="middle">Wipe Every Joint</text>
+                <text x="80" y="105" font-size="8" fill="#64748B" text-anchor="middle">Tissue turns dark instantly</text>
+                <text x="80" y="120" font-size="8" fill="#64748B" text-anchor="middle">if microscopic weep exists</text>
+                <rect x="20" y="130" width="120" height="20" fill="#DCFCE7" stroke="#22C55E" stroke-width="1" rx="3"/>
+                <text x="80" y="144" font-size="8" font-weight="800" fill="#15803D" text-anchor="middle">MUST STAY 100% DRY!</text>
+            </g>
+        </svg>
+            </div>
+
+            <div class="warning-banner">
+                ⚠️ Tissue Wipe Rule: Visual inspection is NOT enough! Dry blue roll tissue paper instantly darkens when touching even a microscopic drop of water. Check every single fitting.
+            </div>
+
+            <div class="steps-card">
+                <h3>Step-by-Step Instructions</h3>
+
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div>Clean BoilerMag magnetic filter canister and refit.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div>Heating engineer fills system and conducts cold hydrostatic pressure test (holding 1.0–1.5 bar).</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div>Wipe every push-fit joint, elbow, tee, and radiator valve with dry blue roll tissue paper to detect microscopic weeps.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">4</div>
+                    <div>Fire boiler, run heating to max temperature, and perform final hot expansion pressure leak check.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">5</div>
+                    <div>Dose ADEY MC1 Protector Inhibitor 500ml into system via towel radiator or fill loop per BS 7593.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">6</div>
+                    <div>Bleed all radiators starting from furthest (Rad #3) working back.</div>
+                </div>
+            </div>
+
+            <div class="callout-box">
+                🧪 <strong>Chemical Dosing:</strong> ADEY MC1 Protector Inhibitor 500ml (Screwfix Code: 359KJ). Essential to prevent internal copper corrosion and sludge formation.
+            </div>
+        </section>
+
+        <!-- RIGHT COLUMN: CHECKLIST & TOOLS -->
+        <section class="right-col">
+            <div class="checklist-card">
+                <h3>
+                    <span>Task Checklist</span>
+                    <span id="checkPercent" style="font-size:0.8rem; color:#64748B;">0%</span>
+                </h3>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill" id="progressFill"></div>
+                </div>
+
+                <form id="checklistForm">
+
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_0" onchange="updateChecklist()">
+                        <label for="chk_0">Clean and refit BoilerMag filter</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_1" onchange="updateChecklist()">
+                        <label for="chk_1">Pressurize system cold to 1.5 bar</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_2" onchange="updateChecklist()">
+                        <label for="chk_2">Wipe all joints with blue roll tissue</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_3" onchange="updateChecklist()">
+                        <label for="chk_3">Fire boiler and perform hot test</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_4" onchange="updateChecklist()">
+                        <label for="chk_4">Verify zero pressure drop over 2 hours</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_5" onchange="updateChecklist()">
+                        <label for="chk_5">Dose ADEY MC1 inhibitor 500ml</label>
+                    </div>
+                    <div class="check-row">
+                        <input type="checkbox" id="chk_6" onchange="updateChecklist()">
+                        <label for="chk_6">Bleed all 3 radiators</label>
+                    </div>
+                </form>
+                <button class="btn-reset" onclick="resetChecklist()">Reset Checklist</button>
+            </div>
+
+            <div class="tools-card">
+                <h4>🛠️ Tools & Materials Needed</h4>
+                <ul class="tool-list">
+
+                    <li><span>🧻</span> <span>Blue Roll / Dry Tissue Paper</span></li>
+                    <li><span>🧪</span> <span>ADEY MC1 Inhibitor 500ml</span></li>
+                    <li><span>🔑</span> <span>Radiator Bleed Key</span></li>
+                    <li><span>📊</span> <span>Pressure Gauge</span></li>
+                </ul>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        PROVISIONAL — Subject to plumber verification
+    </footer>
+
+    <!-- MODAL OVERLAY FOR NOTES -->
+    <div class="modal-overlay" id="notesModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Stage 9 Notes</h3>
+                <button class="modal-close" onclick="closeNotesModal()">&times;</button>
+            </div>
+            <textarea class="modal-textarea" id="notesTextarea" placeholder="Enter notes or feedback for Stage 9..."></textarea>
+            <div class="modal-actions">
+
+                <button class="btn-cancel" onclick="closeNotesModal()">Close</button>
+                <button class="btn-save" onclick="saveNotes()">Save Note</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT FOR LOCAL STORAGE & CHECKLIST -->
+    <script>
+        const NOTES_KEY = 'notes-stage-9';
+        const CHECKLIST_KEY = 'checklist-stage-9';
+        const TOTAL_ITEMS = 7;
+
+        /* NOTES FUNCTIONS */
+        function checkNotesExist() {
+            const savedNotes = localStorage.getItem(NOTES_KEY);
+            const dot = document.getElementById('notesDot');
+            if (savedNotes && savedNotes.trim().length > 0) {
+                dot.style.display = 'inline-block';
+            } else {
+                dot.style.display = 'none';
+            }
+        }
+
+        function openNotesModal() {
+            const savedNotes = localStorage.getItem(NOTES_KEY) || '';
+            document.getElementById('notesTextarea').value = savedNotes;
+            document.getElementById('notesModal').classList.add('active');
+        }
+
+        function closeNotesModal() {
+            document.getElementById('notesModal').classList.remove('active');
+        }
+
+        function saveNotes() {
+            const text = document.getElementById('notesTextarea').value;
+            localStorage.setItem(NOTES_KEY, text);
+            checkNotesExist();
+            closeNotesModal();
+        }
+
+        /* EXPORT ALL NOTES FUNCTION (STAGE 10 SPECIAL) */
+        function exportAllNotes() {
+            let allText = "=========================================================\n";
+            allText += "   CENTRAL HEATING REPLACEMENT PLAN - COMPILED SITE NOTES\n";
+            allText += "=========================================================\n\n";
+
+            const indexNote = localStorage.getItem('notes-index');
+            if (indexNote) {
+                allText += "[ INDEX PAGE NOTES ]\n" + indexNote + "\n\n---------------------------------------------------------\n\n";
+            }
+
+            for (let i = 1; i <= 10; i++) {
+                const sNote = localStorage.getItem('notes-stage-' + i);
+                if (sNote && sNote.trim().length > 0) {
+                    allText += "[ STAGE " + i + " NOTES ]\n" + sNote + "\n\n---------------------------------------------------------\n\n";
+                }
+            }
+
+            const blob = new Blob([allText], { type: 'text/plain;charset=utf-8' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'central_heating_plan_notes.txt';
+            link.click();
+        }
+
+        /* CHECKLIST FUNCTIONS */
+        function loadChecklist() {
+            const savedState = JSON.parse(localStorage.getItem(CHECKLIST_KEY) || '[]');
+            savedState.forEach((checked, idx) => {
+                const el = document.getElementById('chk_' + idx);
+                if (el) el.checked = checked;
+            });
+            updateChecklist(false);
+        }
+
+        function updateChecklist(save = true) {
+            let checkedCount = 0;
+            const state = [];
+            for (let i = 0; i < TOTAL_ITEMS; i++) {
+                const el = document.getElementById('chk_' + i);
+                if (el) {
+                    state.push(el.checked);
+                    if (el.checked) checkedCount++;
+                }
+            }
+
+            const pct = Math.round((checkedCount / TOTAL_ITEMS) * 100);
+            document.getElementById('progressFill').style.width = pct + '%';
+            document.getElementById('checkPercent').innerText = pct + '% (' + checkedCount + '/' + TOTAL_ITEMS + ')';
+
+            if (save) {
+                localStorage.setItem(CHECKLIST_KEY, JSON.stringify(state));
+            }
+        }
+
+        function resetChecklist() {
+            if (confirm('Reset all checklist items for Stage 9?')) {
+                localStorage.removeItem(CHECKLIST_KEY);
+                for (let i = 0; i < TOTAL_ITEMS; i++) {
+                    const el = document.getElementById('chk_' + i);
+                    if (el) el.checked = false;
+                }
+                updateChecklist(false);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkNotesExist();
+            loadChecklist();
+        });
+    </script>
+</body>
+</html>
