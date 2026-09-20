@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Central Heating Replacement Plan - Index & Overview</title>
+    <style>
+        :root {
+            --navy: #1F3864;
+            --mid-blue: #2E74B5;
+            --cyan: #00B0F0;
+            --dark-green: #375623;
+            --gold: #BF8F00;
+            --red: #C00000;
+            --dark-red: #843C0C;
+            --purple: #7030A0;
+            --orange: #FF6600;
+            --dark-grey: #404040;
+            --light-bg: #F8FAFC;
+            --border: #CBD5E1;
+            --text-dark: #0F172A;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        body {
+            background-color: #FFFFFF;
+            color: var(--text-dark);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER ZONE */
+        header {
+            background-color: var(--navy);
+            color: #FFFFFF;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 10;
+        }
+
+        .header-titles h1 {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+        }
+
+        .header-titles p {
+            font-size: 0.88rem;
+            color: #E2E8F0;
+            font-weight: 400;
+        }
+
+        .notes-btn {
+            background-color: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #FFFFFF;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .notes-btn:hover {
+            background-color: rgba(255, 255, 255, 0.25);
+            border-color: #FFFFFF;
+        }
+
+        .notes-dot {
+            width: 8px;
+            height: 8px;
+            background-color: #FACC15;
+            border-radius: 50%;
+            display: none;
+            box-shadow: 0 0 6px #FACC15;
+        }
+
+        /* MAIN 3-ZONE LAYOUT */
+        main {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 20px;
+            padding: 20px;
+            flex: 1;
+            max-width: 1600px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        @media (max-width: 1024px) {
+            main {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ZONE A: SVG FLOOR PLAN */
+        .zone-a {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .zone-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .svg-wrapper {
+            width: 100%;
+            height: 100%;
+            min-height: 520px;
+            flex: 1;
+            background: #FFFFFF;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ANIMATED PIPE ROUTES */
+        .pipe-flow {
+            stroke: var(--red);
+            stroke-width: 3.5;
+            stroke-dasharray: 8 6;
+            animation: flowDash 20s linear infinite;
+            fill: none;
+        }
+
+        .pipe-return {
+            stroke: var(--mid-blue);
+            stroke-width: 3.5;
+            stroke-dasharray: 8 6;
+            animation: returnDash 20s linear infinite;
+            fill: none;
+        }
+
+        @keyframes flowDash {
+            to { stroke-dashoffset: -1000; }
+        }
+
+        @keyframes returnDash {
+            to { stroke-dashoffset: 1000; }
+        }
+
+        /* ZONE B & C CONTAINER */
+        .right-zone {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* ZONE B: 10 STAGE CARDS GRID (2x5) */
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        .stage-card {
+            border-radius: 8px;
+            padding: 12px 16px;
+            color: #FFFFFF;
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 98px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .stage-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.18);
+        }
+
+        .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .card-number {
+            font-size: 1.35rem;
+            font-weight: 900;
+            opacity: 0.9;
+            line-height: 1;
+        }
+
+        .card-pill {
+            font-size: 0.68rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 10px;
+            background-color: rgba(255, 255, 255, 0.25);
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .card-title {
+            font-size: 0.96rem;
+            font-weight: 700;
+            margin: 4px 0 2px 0;
+            line-height: 1.25;
+        }
+
+        .card-desc {
+            font-size: 0.78rem;
+            opacity: 0.9;
+            line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 6px;
+            font-size: 0.74rem;
+            opacity: 0.85;
+            font-weight: 500;
+        }
+
+        /* ZONE C: KEY DATA SUMMARY PANELS */
+        .data-panels {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .data-panel {
+            background-color: var(--light-bg);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+
+        .panel-header {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            padding-bottom: 4px;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .panel-main-val {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: var(--navy);
+            margin-bottom: 4px;
+        }
+
+        .panel-list {
+            font-size: 0.78rem;
+            color: #334155;
+            line-height: 1.45;
+            list-style: none;
+        }
+
+        .panel-subnote {
+            font-size: 0.72rem;
+            color: #64748B;
+            margin-top: 6px;
+            font-style: italic;
+        }
+
+        /* PLUMBER SIGN-OFF BLOCK */
+        .signoff-card {
+            background-color: #F1F5F9;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 18px;
+            margin-top: 10px;
+        }
+
+        .signoff-title {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--navy);
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .signoff-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .form-group label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #475569;
+        }
+
+        .form-group input[type="text"], .form-group input[type="date"] {
+            padding: 6px 10px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-size: 0.85rem;
+        }
+
+        .verdict-box {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            padding: 8px 12px;
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+        }
+
+        .verdict-box label {
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-print {
+            background-color: var(--navy);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-weight: 700;
+            cursor: pointer;
+            font-size: 0.85rem;
+        }
+
+        /* FOOTER */
+        footer {
+            background-color: #F1F5F9;
+            border-top: 1px solid var(--border);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.82rem;
+            color: #475569;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+
+        .footer-alert {
+            color: var(--red);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* MODAL OVERLAY FOR NOTES */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(15, 23, 42, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 520px;
+            padding: 24px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 {
+            font-size: 1.2rem;
+            color: var(--navy);
+            font-weight: 700;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: #64748B;
+        }
+
+        .modal-textarea {
+            width: 100%;
+            height: 160px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 0.9rem;
+            resize: vertical;
+            outline: none;
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+        }
+
+        .btn-save {
+            background-color: var(--navy);
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-cancel {
+            background-color: #E2E8F0;
+            color: #334155;
+            border: none;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER BAR -->
+    <header>
+        <div class="header-titles">
+            <h1>Central Heating Replacement Plan</h1>
+            <p>15mm Two-Pipe System | First Floor Flat | Glow-worm Compact 24c-AS/1</p>
+        </div>
+        <button class="notes-btn" onclick="openNotesModal()">
+            📝 Page Notes
+            <span class="notes-dot" id="notesDot"></span>
+        </button>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main>
+        <!-- ZONE A: SVG FLOOR PLAN -->
+        <section class="zone-a">
+            <div class="zone-title">
+                <span>📍 Flat Floor Plan & Pipe Route</span>
+                <span style="font-size:0.75rem; color:#64748B; font-weight:normal;">Strict Tracing — flow diagram.png</span>
+            </div>
+            <div class="svg-wrapper">
+                <svg viewBox="0 0 500 580" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <marker id="arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 1 L 10 5 L 0 9 z" fill="#C00000" />
+                        </marker>
+                        <marker id="arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                            <path d="M 0 1 L 10 5 L 0 9 z" fill="#2E74B5" />
+                        </marker>
+                    </defs>
+
+                    <!-- Background Grid -->
+                    <rect width="500" height="580" fill="#F8FAFC"/>
+
+                    <!-- ROOM BOUNDARIES -->
+                    <rect x="20" y="20" width="180" height="170" fill="#FFFFFF" stroke="#334155" stroke-width="2.5" rx="4"/>
+                    <text x="30" y="42" font-size="12" font-weight="700" fill="#1F3864">KITCHEN</text>
+                    <text x="30" y="56" font-size="9" fill="#64748B">2.72 x 2.57m</text>
+
+                    <rect x="200" y="20" width="280" height="230" fill="#FFFFFF" stroke="#334155" stroke-width="2.5" rx="4"/>
+                    <text x="210" y="42" font-size="12" font-weight="700" fill="#1F3864">RECEPTION ROOM</text>
+                    <text x="210" y="56" font-size="9" fill="#64748B">4.90 x 3.51m</text>
+
+                    <rect x="20" y="190" width="180" height="130" fill="#F1F5F9" stroke="#334155" stroke-width="2.5" rx="4"/>
+                    <text x="30" y="212" font-size="12" font-weight="700" fill="#64748B">BATHROOM</text>
+                    <text x="30" y="226" font-size="9" fill="#94A3B8">(No Radiator)</text>
+
+                    <rect x="20" y="320" width="220" height="230" fill="#FFFFFF" stroke="#334155" stroke-width="2.5" rx="4"/>
+                    <text x="30" y="342" font-size="12" font-weight="700" fill="#1F3864">BEDROOM 1</text>
+                    <text x="30" y="356" font-size="9" fill="#64748B">2.74 x 2.08m (Smaller)</text>
+
+                    <rect x="240" y="250" width="240" height="300" fill="#FFFFFF" stroke="#334155" stroke-width="2.5" rx="4"/>
+                    <text x="250" y="272" font-size="12" font-weight="700" fill="#1F3864">BEDROOM 2</text>
+                    <text x="250" y="286" font-size="9" fill="#64748B">3.78 x 2.84m (Larger)</text>
+
+                    <!-- BOILER BOX -->
+                    <rect x="25" y="70" width="45" height="75" fill="#FEF3C7" stroke="#D97706" stroke-width="1.5" rx="3"/>
+                    <text x="47" y="90" font-size="8" font-weight="800" fill="#92400E" text-anchor="middle">BOILER</text>
+                    <text x="47" y="102" font-size="6.5" font-weight="700" fill="#B45309" text-anchor="middle">Glow-worm</text>
+                    <text x="47" y="112" font-size="6" fill="#B45309" text-anchor="middle">Compact 24c</text>
+
+                    <g transform="translate(25, 150)">
+                        <rect x="0" y="0" width="165" height="32" fill="#FEF2F2" stroke="#EF4444" stroke-width="1" rx="4"/>
+                        <text x="6" y="13" font-size="7.5" font-weight="700" fill="#991B1B">⚠ BOILER STUBS SAFETY</text>
+                        <text x="6" y="24" font-size="6.5" fill="#7F1D1D">Engineer to identify flow/return on site</text>
+                    </g>
+
+                    <!-- RADIATORS -->
+                    <rect x="460" y="90" width="12" height="70" fill="#E2E8F0" stroke="#1F3864" stroke-width="1.5" rx="2"/>
+                    <text x="452" y="125" font-size="9" font-weight="800" fill="#1F3864" text-anchor="end">R1</text>
+
+                    <rect x="28" y="400" width="12" height="70" fill="#E2E8F0" stroke="#1F3864" stroke-width="1.5" rx="2"/>
+                    <text x="48" y="435" font-size="9" font-weight="800" fill="#1F3864">R2</text>
+
+                    <rect x="460" y="380" width="12" height="70" fill="#E2E8F0" stroke="#1F3864" stroke-width="1.5" rx="2"/>
+                    <text x="452" y="415" font-size="9" font-weight="800" fill="#1F3864" text-anchor="end">R3</text>
+
+                    <!-- ANIMATED PIPES -->
+                    <path class="pipe-flow" d="
+                        M 45 145 L 45 175 L 190 175 L 190 35 L 450 35 L 450 90
+                        M 450 160 L 450 310 L 230 310 L 230 340 L 45 340 L 45 400
+                        M 45 470 L 45 530 L 230 530 L 260 530 L 450 530 L 450 450
+                    " marker-end="url(#arrow-red)"/>
+
+                    <path class="pipe-return" d="
+                        M 55 145 L 55 165 L 180 165 L 180 45 L 440 45 L 440 90
+                        M 440 160 L 440 300 L 220 300 L 220 330 L 35 330 L 35 400
+                        M 35 470 L 35 540 L 260 540 L 440 540 L 440 450
+                    " marker-start="url(#arrow-blue)"/>
+
+                    <!-- ANNOTATIONS -->
+                    <g transform="translate(250, 105)">
+                        <rect x="0" y="0" width="180" height="28" fill="#FFFFFF" stroke="#C00000" stroke-width="1" rx="3" opacity="0.95"/>
+                        <text x="6" y="12" font-size="8" font-weight="700" fill="#C00000">R1 — Reception Room</text>
+                        <text x="6" y="22" font-size="7" fill="#334155">Mid-loop Equal Tee Connection</text>
+                    </g>
+
+                    <g transform="translate(60, 410)">
+                        <rect x="0" y="0" width="150" height="28" fill="#FFFFFF" stroke="#C00000" stroke-width="1" rx="3" opacity="0.95"/>
+                        <text x="6" y="12" font-size="8" font-weight="700" fill="#C00000">R2 — Bedroom 1</text>
+                        <text x="6" y="22" font-size="7" fill="#334155">Mid-loop Equal Tee Connection</text>
+                    </g>
+
+                    <g transform="translate(250, 425)">
+                        <rect x="0" y="0" width="185" height="28" fill="#FFFFFF" stroke="#843C0C" stroke-width="1" rx="3" opacity="0.95"/>
+                        <text x="6" y="12" font-size="8" font-weight="700" fill="#843C0C">R3 — Bedroom 2 (End of Loop)</text>
+                        <text x="6" y="22" font-size="7" fill="#334155">Terminal 90° Elbows (No Continuation)</text>
+                    </g>
+                </svg>
+            </div>
+        </section>
+
+        <!-- ZONE B & C CONTAINER -->
+        <div class="right-zone">
+            <!-- ZONE B: 10 STAGE CARDS GRID (2x5) -->
+            <section class="cards-grid">
+                <a href="stage-1.html" class="stage-card" style="background-color: #1F3864;">
+                    <div class="card-top"><span class="card-number">01</span><span class="card-pill">Easy</span></div>
+                    <div><div class="card-title">Pre-Work Approvals</div><div class="card-desc">Leasehold consent & insurer brief</div></div>
+                    <div class="card-footer"><span>⏱ 1-2 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-2.html" class="stage-card" style="background-color: #2E74B5;">
+                    <div class="card-top"><span class="card-number">02</span><span class="card-pill">Easy</span></div>
+                    <div><div class="card-title">Route Measurement</div><div class="card-desc">Site tape measure & 15mm tally</div></div>
+                    <div class="card-footer"><span>⏱ 2 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-3.html" class="stage-card" style="background-color: #00B0F0;">
+                    <div class="card-top"><span class="card-number">03</span><span class="card-pill">Medium</span></div>
+                    <div><div class="card-title">Safe Draining</div><div class="card-desc">Fuse lockout & siphon drain</div></div>
+                    <div class="card-footer"><span>⏱ 1.5 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-4.html" class="stage-card" style="background-color: #375623;">
+                    <div class="card-top"><span class="card-number">04</span><span class="card-pill">Medium</span></div>
+                    <div><div class="card-title">Cable Scan & Drilling</div><div class="card-desc">Truvo wall scan & clips @ 600mm</div></div>
+                    <div class="card-footer"><span>⏱ 3 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-5.html" class="stage-card" style="background-color: #BF8F00;">
+                    <div class="card-top"><span class="card-number">05</span><span class="card-pill">Medium-High</span></div>
+                    <div><div class="card-title">Push-Fit Golden Sequence</div><div class="card-desc">Cut, deburr, clean, 23mm mark, push</div></div>
+                    <div class="card-footer"><span>⏱ 4 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-6.html" class="stage-card" style="background-color: #C00000;">
+                    <div class="card-top"><span class="card-number">06</span><span class="card-pill">Medium</span></div>
+                    <div><div class="card-title">Radiators #1 & #2</div><div class="card-desc">Equal branch tees for R1 & R2</div></div>
+                    <div class="card-footer"><span>⏱ 3 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-7.html" class="stage-card" style="background-color: #843C0C;">
+                    <div class="card-top"><span class="card-number">07</span><span class="card-pill">Medium</span></div>
+                    <div><div class="card-title">Radiator #3 Terminal</div><div class="card-desc">90° terminal elbows (end of loop)</div></div>
+                    <div class="card-footer"><span>⏱ 2 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-8.html" class="stage-card" style="background-color: #7030A0;">
+                    <div class="card-top"><span class="card-number">08</span><span class="card-pill" style="background-color:#EF4444; color:#FFF;">HIGH RISK</span></div>
+                    <div><div class="card-title">Boiler Reconnection</div><div class="card-desc">Plumber stub verification & couplers</div></div>
+                    <div class="card-footer"><span>⏱ 2 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-9.html" class="stage-card" style="background-color: #FF6600;">
+                    <div class="card-top"><span class="card-number">09</span><span class="card-pill" style="background-color:#EF4444; color:#FFF;">High Risk</span></div>
+                    <div><div class="card-title">Pressure Testing</div><div class="card-desc">1.5 bar test & blue roll wipe check</div></div>
+                    <div class="card-footer"><span>⏱ 3 hrs</span><span>Click for details →</span></div>
+                </a>
+                <a href="stage-10.html" class="stage-card" style="background-color: #404040;">
+                    <div class="card-top"><span class="card-number">10</span><span class="card-pill">Medium</span></div>
+                    <div><div class="card-title">Boxing In</div><div class="card-desc">Timber battens & MDF access hatches</div></div>
+                    <div class="card-footer"><span>⏱ 4-5 hrs</span><span>Click for details →</span></div>
+                </a>
+            </section>
+
+            <!-- ZONE C: KEY DATA PANELS -->
+            <section class="data-panels">
+                <div class="data-panel">
+                    <div class="panel-header"><span>📏 Pipe</span></div>
+                    <div class="panel-main-val">17 × 3m = 51m</div>
+                    <ul class="panel-list">
+                        <li>22.8m one-way route</li>
+                        <li>45.6m both pipes</li>
+                        <li>+10% waste allowance</li>
+                    </ul>
+                </div>
+                <div class="data-panel">
+                    <div class="panel-header"><span>🔧 Fittings</span></div>
+                    <div class="panel-main-val">Tectite Sprint</div>
+                    <ul class="panel-list">
+                        <li>6 × Equal Tees (5189G)</li>
+                        <li>12 × 90° Elbows (6486G)</li>
+                        <li>8 × Couplers (5808G)</li>
+                        <li>~90 × Clips (2716J)</li>
+                    </ul>
+                </div>
+                <div class="data-panel">
+                    <div class="panel-header"><span>💷 Cost Estimate</span></div>
+                    <div class="panel-main-val">~£365 - £663</div>
+                    <ul class="panel-list">
+                        <li>Pipe + fittings + clips: ~£365</li>
+                        <li>Fully kitted: £610-£663</li>
+                    </ul>
+                    <div class="panel-subnote">(subject to on-site measurement)</div>
+                </div>
+            </section>
+
+            <!-- PLUMBER SIGN-OFF BLOCK -->
+            <section class="signoff-card">
+                <div class="signoff-title">
+                    <span>✍️ Plumber Sign-Off & Verification Block</span>
+                    <button class="btn-print" onclick="window.print()">🖨️ Print Index</button>
+                </div>
+                <div class="signoff-grid">
+                    <div class="form-group">
+                        <label for="pName">Engineer Name:</label>
+                        <input type="text" id="pName" placeholder="e.g. John Smith" onchange="saveSignoff()">
+                    </div>
+                    <div class="form-group">
+                        <label for="pCompany">Company / Firm:</label>
+                        <input type="text" id="pCompany" placeholder="e.g. Apex Plumbing" onchange="saveSignoff()">
+                    </div>
+                    <div class="form-group">
+                        <label for="pGasSafe">Gas Safe Reg #:</label>
+                        <input type="text" id="pGasSafe" placeholder="e.g. 554321" onchange="saveSignoff()">
+                    </div>
+                    <div class="form-group">
+                        <label for="pDate">Sign-Off Date:</label>
+                        <input type="date" id="pDate" onchange="saveSignoff()">
+                    </div>
+                </div>
+                <div style="display:flex; justify-content:space-between; align-items:center;">
+                    <div class="verdict-box">
+                        <span style="font-size:0.82rem; font-weight:700;">Verdict:</span>
+                        <label><input type="radio" name="verdict" value="approved" onchange="saveSignoff()"> Approved & Commissioned</label>
+                        <label><input type="radio" name="verdict" value="changes" onchange="saveSignoff()"> Changes Required</label>
+                    </div>
+                    <div class="form-group" style="width:200px;">
+                        <input type="text" id="pSig" placeholder="Signature text..." onchange="saveSignoff()" style="border-bottom:2px solid var(--navy);">
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-alert"><span>⚠ PROVISIONAL — Subject to plumber verification</span></div>
+        <div><span>Print all 11 pages and attach verified diagrams</span></div>
+    </footer>
+
+    <!-- MODAL OVERLAY FOR NOTES -->
+    <div class="modal-overlay" id="notesModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Page Notes</h3>
+                <button class="modal-close" onclick="closeNotesModal()">&times;</button>
+            </div>
+            <textarea class="modal-textarea" id="notesTextarea" placeholder="Enter notes or feedback for the Index page..."></textarea>
+            <div class="modal-actions">
+                <button class="btn-cancel" onclick="closeNotesModal()">Close</button>
+                <button class="btn-save" onclick="saveNotes()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const STORAGE_KEY = 'notes-index';
+        const SIGNOFF_KEY = 'plumber-signoff';
+
+        function checkNotesExist() {
+            const savedNotes = localStorage.getItem(STORAGE_KEY);
+            const dot = document.getElementById('notesDot');
+            if (savedNotes && savedNotes.trim().length > 0) {
+                dot.style.display = 'inline-block';
+            } else {
+                dot.style.display = 'none';
+            }
+        }
+
+        function openNotesModal() {
+            const savedNotes = localStorage.getItem(STORAGE_KEY) || '';
+            document.getElementById('notesTextarea').value = savedNotes;
+            document.getElementById('notesModal').classList.add('active');
+        }
+
+        function closeNotesModal() {
+            document.getElementById('notesModal').classList.remove('active');
+        }
+
+        function saveNotes() {
+            const text = document.getElementById('notesTextarea').value;
+            localStorage.setItem(STORAGE_KEY, text);
+            checkNotesExist();
+            closeNotesModal();
+        }
+
+        function saveSignoff() {
+            const signoff = {
+                name: document.getElementById('pName').value,
+                company: document.getElementById('pCompany').value,
+                gassafe: document.getElementById('pGasSafe').value,
+                date: document.getElementById('pDate').value,
+                verdict: document.querySelector('input[name="verdict"]:checked')?.value || '',
+                sig: document.getElementById('pSig').value
+            };
+            localStorage.setItem(SIGNOFF_KEY, JSON.stringify(signoff));
+        }
+
+        function loadSignoff() {
+            const saved = localStorage.getItem(SIGNOFF_KEY);
+            if (!saved) return;
+            try {
+                const s = JSON.parse(saved);
+                document.getElementById('pName').value = s.name || '';
+                document.getElementById('pCompany').value = s.company || '';
+                document.getElementById('pGasSafe').value = s.gassafe || '';
+                document.getElementById('pDate').value = s.date || '';
+                if (s.verdict) {
+                    const r = document.querySelector(`input[name="verdict"][value="${s.verdict}"]`);
+                    if (r) r.checked = true;
+                }
+                document.getElementById('pSig').value = s.sig || '';
+            } catch(e){}
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            checkNotesExist();
+            loadSignoff();
+        });
+    </script>
+</body>
+</html>
