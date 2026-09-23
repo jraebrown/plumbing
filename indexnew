@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plumbing Plan | Stage-by-Stage</title>
+    <style>
+        /* Editorial Color Palette */
+        :root {
+            --navy: #2F436E;
+            --coral: #E86A67;
+            --white: #FFFFFF;
+            --bg-light: #F4F7F6;
+            --soft-blue: #A9C5D8;
+            --cool-grey: #8A9AAB;
+            --beige: #F5F1E7;
+            --text-dark: #1A2530;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--navy);
+            color: var(--white);
+            padding: 40px 20px;
+            text-align: center;
+            border-bottom: 5px solid var(--coral);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+
+        header p {
+            color: var(--soft-blue);
+            font-size: 1.1rem;
+            margin-top: 10px;
+        }
+
+        .stage-nav {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 20px;
+            background: var(--white);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            flex-wrap: wrap;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .stage-btn {
+            background: var(--bg-light);
+            border: 2px solid var(--cool-grey);
+            color: var(--navy);
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .stage-btn.active, .stage-btn:hover {
+            background: var(--coral);
+            border-color: var(--coral);
+            color: var(--white);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* Split Layout for Editorial Magazine Feel */
+        .stage-content {
+            display: none;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            animation: fadeIn 0.5s ease;
+        }
+
+        .stage-content.active {
+            display: grid;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .infographic-col {
+            background-color: var(--beige);
+            padding: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-right: 1px solid #E0E5EA;
+        }
+
+        .infographic-col img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .text-col {
+            padding: 40px 40px 40px 0;
+        }
+
+        .stage-tag {
+            background: var(--coral);
+            color: var(--white);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            color: var(--navy);
+            font-size: 2.2rem;
+            margin: 15px 0;
+            line-height: 1.2;
+        }
+
+        .tldr {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: var(--cool-grey);
+            margin-bottom: 30px;
+        }
+
+        /* ADHD-Friendly Chunked List */
+        .action-list {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 30px 0;
+        }
+
+        .action-list li {
+            background: var(--bg-light);
+            margin-bottom: 15px;
+            padding: 15px 20px;
+            border-left: 4px solid var(--navy);
+            border-radius: 0 8px 8px 0;
+            font-size: 1.05rem;
+        }
+
+        .action-list li b {
+            color: var(--navy);
+        }
+
+        /* Interactive Deep Dive */
+        .deep-dive-btn {
+            background: var(--soft-blue);
+            color: var(--navy);
+            border: none;
+            padding: 12px 24px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            justify-content: space-between;
+            transition: background 0.3s;
+        }
+
+        .deep-dive-btn:hover {
+            background: #96b6ca;
+        }
+
+        .deep-dive-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out, padding 0.4s ease;
+            background: #F9FAFB;
+            border: 1px solid #E0E5EA;
+            border-top: none;
+            border-radius: 0 0 6px 6px;
+            padding: 0 20px;
+        }
+
+        .deep-dive-content.open {
+            max-height: 1000px; /* Arbitrary large number for animation */
+            padding: 20px;
+        }
+
+        /* Plumber Sign-Off Section */
+        .signoff-section {
+            margin-top: 40px;
+            padding: 20px;
+            background: var(--navy);
+            color: var(--white);
+            border-radius: 8px;
+        }
+
+        .signoff-section h3 {
+            margin-top: 0;
+            color: var(--coral);
+            border-bottom: 1px solid rgba(255,255,255,0.2);
+            padding-bottom: 10px;
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            cursor: pointer;
+            font-size: 1.1rem;
+        }
+
+        .checkbox-container input {
+            width: 20px;
+            height: 20px;
+            margin-right: 15px;
+            accent-color: var(--coral);
+            cursor: pointer;
+        }
+
+        @media (max-width: 900px) {
+            .stage-content {
+                grid-template-columns: 1fr;
+            }
+            .text-col {
+                padding: 30px;
+            }
+            .infographic-col {
+                border-right: none;
+                border-bottom: 1px solid #E0E5EA;
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>First-Floor Flat · Leasehold · Glow-worm Compact 24c</p>
+    <h1>Central Heating Reroute Guide</h1>
+    <p>Above-surface 15mm copper two-pipe system · Pegler Tectite Sprint</p>
+</header>
+
+<!-- Navigation -->
+<nav class="stage-nav">
+    <button class="stage-btn active" onclick="showStage(1)">01 Approvals</button>
+    <button class="stage-btn" onclick="showStage(5)">05 Push-Fit Prep</button>
+    <button class="stage-btn" onclick="showStage(8)">08 Boiler Reconnect</button>
+</nav>
+
+<div class="container">
+    
+    <!-- STAGE 1 CONTENT -->
+    <div id="stage-1" class="stage-content active">
+        <div class="infographic-col">
+            <!-- Replace src with the image you generate using the prompts above -->
+            <img src="https://via.placeholder.com/600x800.png?text=Stage+1+Infographic+Placeholder" alt="Stage 1 Infographic">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 1 of 10</span>
+            <h2>Pre-Work Approvals & Mandatory Consents</h2>
+            <p class="tldr">TL;DR: Secure written freeholder consent, notify your home insurer, and get plumber approval before buying or cutting anything.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Freeholder Consent:</b> Obtain formal written permission to alter above-surface pipework.</li>
+                <li>✅ <b>Insurer Notification:</b> Email your insurer confirming DIY water-side work only; Gas Safe handles the boiler.</li>
+                <li>🛑 <b>Stop Condition:</b> Do not order materials, drill, or cut until professional route approval is recorded.</li>
+            </ul>
+
+            <!-- Deep Dive Toggle -->
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-1')">
+                <span>💡 Deep Dive: Why does this matter?</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-1" class="deep-dive-content">
+                <h4>First-Floor Flat Water-Escape Risk</h4>
+                <p>Because you live above another flat, any leak poses a catastrophic risk to the property directly below. Proceeding without consent could breach your lease and invalidate your buildings insurance.</p>
+                <h4>The Gas Safe Boundary</h4>
+                <p>You can legally cut/join copper flow and return pipes. You <b>cannot</b> touch the gas supply pipe or disconnect the boiler's gas connection. Only a Gas Safe engineer can do this.</p>
+            </div>
+
+            <!-- Plumber Sign Off -->
+            <div class="signoff-section">
+                <h3>📋 Professional Sign-Off</h3>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="s1-check1" onchange="saveSignoff(this)">
+                    Engineer verifies the 15mm route plan
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="s1-check2" onchange="saveSignoff(this)">
+                    Boiler manual downloaded & available on site
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 5 CONTENT -->
+    <div id="stage-5" class="stage-content">
+        <div class="infographic-col">
+            <img src="https://via.placeholder.com/600x800.png?text=Stage+5+Infographic+Placeholder" alt="Stage 5 Infographic">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 5 of 10</span>
+            <h2>Push-Fit Preparation: The Golden Sequence</h2>
+            <p class="tldr">TL;DR: Every joint lives or dies by pipe preparation. Cut square, deburr, clean, mark depth, and push.</p>
+            
+            <ul class="action-list">
+                <li>🔧 <b>1. Cut Square:</b> Use the Rothenberger Pipeslice only. NEVER use a hacksaw.</li>
+                <li>🔧 <b>2. Deburr:</b> Use a reamer on the inside and outside edge to prevent O-ring damage.</li>
+                <li>⭐ <b>3. Clean & Inspect:</b> Wipe the pipe end clean. Ensure it is round and scratch-free.</li>
+                <li>📝 <b>4. Mark Depth:</b> Measure and mark the 23mm insertion depth with a pen.</li>
+                <li>✅ <b>5. Push to Mark:</b> Push firmly until the marker meets the collar, then pull-check.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-5')">
+                <span>💡 Deep Dive: Why no hacksaws?</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-5" class="deep-dive-content">
+                <h4>Protecting the O-Ring</h4>
+                <p>A hacksaw leaves a ragged, angled edge. When you push this edge into a Tectite Sprint fitting, it slices the internal rubber O-ring. It might hold pressure initially, but it will eventually fail. Behind boxing in a first-floor flat, this is a five-figure disaster.</p>
+            </div>
+
+            <div class="signoff-section">
+                <h3>📋 Professional Sign-Off</h3>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="s5-check1" onchange="saveSignoff(this)">
+                    Homeowner demonstrates perfect Golden Sequence technique
+                </label>
+                <label class="checkbox-container">
+                    <input type="checkbox" id="s5-check2" onchange="saveSignoff(this)">
+                    All visible joints are fully inserted to the depth mark
+                </label>
+            </div>
+        </div>
+    </div>
+    
+    <!-- (You can copy and paste the above stage blocks to build out all 10 stages) -->
+
+</div>
+
+<script>
+    // Stage Navigation Logic
+    function showStage(stageNum) {
+        // Hide all stages
+        document.querySelectorAll('.stage-content').forEach(el => {
+            el.classList.remove('active');
+        });
+        // Remove active class from buttons
+        document.querySelectorAll('.stage-btn').forEach(el => {
+            el.classList.remove('active');
+        });
+        
+        // Show target stage and highlight button
+        document.getElementById('stage-' + stageNum).classList.add('active');
+        event.target.classList.add('active');
+    }
+
+    // Deep Dive Accordion Logic
+    function toggleDeepDive(id) {
+        const content = document.getElementById(id);
+        if (content.classList.contains('open')) {
+            content.classList.remove('open');
+        } else {
+            content.classList.add('open');
+        }
+    }
+
+    // Plumber Sign-Off LocalStorage Logic (Saves ticks automatically)
+    function saveSignoff(checkbox) {
+        localStorage.setItem(checkbox.id, checkbox.checked);
+    }
+
+    // Load saved checkboxes on page load
+    window.onload = function() {
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        checkboxes.forEach(box => {
+            const savedState = localStorage.getItem(box.id);
+            if (savedState === 'true') {
+                box.checked = true;
+            }
+        });
+    };
+</script>
+
+</body>
+</html>
