@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Plumbing Plan | Summary Companion Guide</title>
     <style>
+        /* Editorial Color Palette */
         :root {
             --navy: #2F436E;
             --coral: #E86A67;
@@ -69,6 +70,49 @@
 
         .header-links a:hover {
             background: var(--coral);
+        }
+
+        /* Overview Image Section */
+        .overview-container {
+            max-width: 1200px;
+            margin: 20px auto 0 auto;
+            padding: 0 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .overview-image {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 10px;
+        }
+
+        .overview-toggle {
+            background: var(--navy);
+            color: var(--white);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+            margin-bottom: 20px;
+        }
+
+        .overview-toggle:hover {
+            background: var(--coral);
+        }
+
+        .overview-wrapper {
+            display: none;
+            width: 100%;
+        }
+
+        .overview-wrapper.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
         }
 
         .stage-nav {
@@ -199,47 +243,6 @@
         }
         .action-list li.warning b { color: var(--coral); }
 
-        /* Golden Sequence Step Cards */
-        .golden-sequence {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            margin: 20px 0;
-        }
-
-        .seq-step {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            background: var(--white);
-            border: 1px solid #E0E5EA;
-            padding: 12px 16px;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.03);
-        }
-
-        .seq-num {
-            background: var(--navy);
-            color: var(--white);
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            flex-shrink: 0;
-        }
-
-        .seq-step.highlight {
-            border: 2px solid var(--coral);
-            background: #FFF9F9;
-        }
-
-        .seq-step.highlight .seq-num {
-            background: var(--coral);
-        }
-
         /* Measurement Data Table */
         .table-wrapper {
             overflow-x: auto;
@@ -269,6 +272,15 @@
 
         table.measurement-table tr:nth-child(even) {
             background-color: #F8FAFB;
+        }
+
+        /* In-Text Image Style */
+        .in-text-image {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            margin: 20px 0;
+            border: 2px solid var(--navy);
         }
 
         .deep-dive-btn {
@@ -425,10 +437,19 @@
     <h1>Central Heating Water Reroute Guide</h1>
     <p>Above-surface 15mm copper two-pipe circuit · Pegler Tectite Sprint Push-Fit Fittings</p>
     <div class="header-links">
-        <a href="central_heating_reroute_guide-v4.pdf" target="_blank">📄 Download Full Master PDF Plan</a>
+        <a href="central_heating_reroute_guide-v5.pdf" target="_blank">📄 Download Full Master PDF Plan</a>
         <a href="Heating_Reroute_Roadmap.pptx" target="_blank">📊 Download PPTX Roadmap</a>
     </div>
 </header>
+
+<!-- Global Overview Toggle -->
+<div class="overview-container">
+    <button class="overview-toggle" onclick="toggleOverview()">Toggle Roadmap Overview</button>
+    <div id="master-roadmap" class="overview-wrapper">
+        <!-- Add image generated from Prompt A here -->
+        <img src="images/roadmap_overview_placeholder.jpg" alt="Technical Roadmap Overview" class="overview-image">
+    </div>
+</div>
 
 <!-- Navigation -->
 <nav class="stage-nav">
@@ -669,29 +690,13 @@
             <h2>Push-Fit Preparation: The Golden Sequence</h2>
             <p class="tldr">TL;DR: Push-fit joints live or die by tube preparation. Cut square, deburr thoroughly, clean, mark insertion depth, and push.</p>
             
-            <!-- Golden Sequence Step Cards -->
-            <div class="golden-sequence">
-                <div class="seq-step">
-                    <div class="seq-num">1</div>
-                    <div><b>Cut Square:</b> Use rotary Pipeslice only. NEVER use a hacksaw (jagged edges tear O-rings).</div>
-                </div>
-                <div class="seq-step">
-                    <div class="seq-num">2</div>
-                    <div><b>Deburr Inside & Out:</b> Ream thoroughly so no sharp burrs score the internal rubber seal.</div>
-                </div>
-                <div class="seq-step highlight">
-                    <div class="seq-num">3</div>
-                    <div><b>Clean & Inspect ⭐ (Most Skipped):</b> Wipe with fine steel wool/cloth. Tube must be round, smooth, and scratch-free.</div>
-                </div>
-                <div class="seq-step">
-                    <div class="seq-num">4</div>
-                    <div><b>Mark Insertion Depth:</b> Verify against fitting packaging and mark with a permanent fine pen.</div>
-                </div>
-                <div class="seq-step">
-                    <div class="seq-num">5</div>
-                    <div><b>Push Home & Verify:</b> Push firmly until mark aligns with socket collar. Pull-check to verify grab ring.</div>
-                </div>
-            </div>
+            <ul class="action-list">
+                <li>🔧 <b>1. Cut Square:</b> Use the Rothenberger Pipeslice only. NEVER use a hacksaw.</li>
+                <li>🔧 <b>2. Deburr:</b> Use a reamer on the inside and outside edge to prevent O-ring damage.</li>
+                <li>⭐ <b>3. Clean & Inspect:</b> Wipe the pipe end clean. Ensure it is round and scratch-free.</li>
+                <li>📝 <b>4. Mark Depth:</b> Confirm the socket depth from the instructions supplied with the exact fitting. (Standard 15mm Sprint is typically 16mm, but VERIFY before assembly).</li>
+                <li>✅ <b>5. Push to Mark:</b> Push firmly until the marker meets the collar, then pull-check.</li>
+            </ul>
 
             <button class="deep-dive-btn" onclick="toggleDeepDive('dd-5')">
                 <span>💡 Deep Dive: Socket Depth (16mm Sprint vs 23mm Classic)</span>
@@ -705,6 +710,9 @@
                     <li><b>VSH Tectite Classic / Pro (Demountable):</b> Socket depth is <b>23mm</b> due to internal demounting ring collars.</li>
                 </ul>
                 <p><b>Rule:</b> Always confirm socket depth with a ruler against the fitting stop and the manufacturer's packaging slip before marking.</p>
+                
+                <!-- Add image generated from Prompt B here -->
+                <img src="images/golden_sequence_poster_placeholder.jpg" alt="Golden Sequence Visual" class="in-text-image">
             </div>
 
             <div class="interactive-panel">
@@ -965,6 +973,11 @@
 </footer>
 
 <script>
+    function toggleOverview() {
+        const overview = document.getElementById('master-roadmap');
+        overview.classList.toggle('show');
+    }
+
     function showStage(stageNum) {
         document.querySelectorAll('.stage-content').forEach(el => el.classList.remove('active'));
         document.querySelectorAll('.stage-btn').forEach(el => el.classList.remove('active'));
