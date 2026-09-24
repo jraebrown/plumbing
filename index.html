@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-GB">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Plumbing Plan | Stage-by-Stage</title>
+    <title>Plumbing Plan | Stage-by-Stage Roadmap</title>
     <style>
         /* Editorial Color Palette */
         :root {
@@ -15,6 +15,7 @@
             --cool-grey: #8A9AAB;
             --beige: #F5F1E7;
             --text-dark: #1A2530;
+            --whatsapp: #25D366;
         }
 
         body {
@@ -46,11 +47,30 @@
             font-size: 1.1rem;
             margin-top: 10px;
         }
+        
+        .header-links {
+            margin-top: 20px;
+        }
+
+        .header-links a {
+            color: var(--white);
+            text-decoration: none;
+            background: rgba(255,255,255,0.1);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: background 0.3s;
+        }
+
+        .header-links a:hover {
+            background: var(--coral);
+        }
 
         .stage-nav {
             display: flex;
             justify-content: center;
-            gap: 10px;
+            gap: 8px;
             padding: 20px;
             background: var(--white);
             box-shadow: 0 2px 10px rgba(0,0,0,0.05);
@@ -64,11 +84,12 @@
             background: var(--bg-light);
             border: 2px solid var(--cool-grey);
             color: var(--navy);
-            padding: 10px 20px;
+            padding: 8px 16px;
             border-radius: 30px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
+            font-size: 0.9rem;
         }
 
         .stage-btn.active, .stage-btn:hover {
@@ -78,21 +99,22 @@
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1300px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        /* Split Layout for Editorial Magazine Feel */
+        /* Split Layout */
         .stage-content {
             display: none;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr 1.2fr;
             gap: 40px;
             background: var(--white);
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 10px 30px rgba(0,0,0,0.08);
             animation: fadeIn 0.5s ease;
+            align-items: start;
         }
 
         .stage-content.active {
@@ -107,6 +129,8 @@
         .infographic-col {
             background-color: var(--beige);
             padding: 40px;
+            position: sticky;
+            top: 100px;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -149,7 +173,7 @@
             margin-bottom: 30px;
         }
 
-        /* ADHD-Friendly Chunked List */
+        /* Lists */
         .action-list {
             list-style: none;
             padding: 0;
@@ -165,11 +189,15 @@
             font-size: 1.05rem;
         }
 
-        .action-list li b {
-            color: var(--navy);
+        .action-list li b { color: var(--navy); }
+        
+        .action-list li.warning {
+            border-left: 4px solid var(--coral);
+            background: #fef2f2;
         }
+        .action-list li.warning b { color: var(--coral); }
 
-        /* Interactive Deep Dive */
+        /* Deep Dive */
         .deep-dive-btn {
             background: var(--soft-blue);
             color: var(--navy);
@@ -185,11 +213,10 @@
             width: 100%;
             justify-content: space-between;
             transition: background 0.3s;
+            margin-bottom: 10px;
         }
 
-        .deep-dive-btn:hover {
-            background: #96b6ca;
-        }
+        .deep-dive-btn:hover { background: #96b6ca; }
 
         .deep-dive-content {
             max-height: 0;
@@ -203,17 +230,23 @@
         }
 
         .deep-dive-content.open {
-            max-height: 1000px; /* Arbitrary large number for animation */
+            max-height: 1000px;
             padding: 20px;
+            margin-bottom: 20px;
         }
 
-        /* Plumber Sign-Off Section */
-        .signoff-section {
+        /* Sign-Off & Notes Section */
+        .interactive-panel {
             margin-top: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #E0E5EA;
+        }
+        
+        .signoff-section {
             padding: 20px;
             background: var(--navy);
             color: var(--white);
-            border-radius: 8px;
         }
 
         .signoff-section h3 {
@@ -221,14 +254,15 @@
             color: var(--coral);
             border-bottom: 1px solid rgba(255,255,255,0.2);
             padding-bottom: 10px;
+            font-size: 1.2rem;
         }
 
         .checkbox-container {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 1.05rem;
         }
 
         .checkbox-container input {
@@ -239,17 +273,81 @@
             cursor: pointer;
         }
 
+        .notes-section {
+            padding: 20px;
+            background: var(--bg-light);
+        }
+        
+        .notes-section h3 {
+            margin-top: 0;
+            color: var(--navy);
+            font-size: 1.2rem;
+        }
+
+        textarea {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 1px solid var(--cool-grey);
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 1rem;
+            resize: vertical;
+            box-sizing: border-box;
+            margin-bottom: 15px;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: var(--navy);
+        }
+
+        .notes-actions {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-save, .btn-whatsapp {
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            color: var(--white);
+            transition: opacity 0.3s;
+        }
+
+        .btn-save { background: var(--navy); }
+        .btn-save:hover { opacity: 0.9; }
+
+        .btn-whatsapp { background: var(--whatsapp); }
+        .btn-whatsapp:hover { opacity: 0.9; }
+
+        .saved-indicator {
+            color: var(--coral);
+            font-weight: bold;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--cool-grey);
+            font-size: 0.9rem;
+        }
+
         @media (max-width: 900px) {
-            .stage-content {
-                grid-template-columns: 1fr;
-            }
-            .text-col {
-                padding: 30px;
-            }
+            .stage-content { grid-template-columns: 1fr; }
+            .text-col { padding: 30px; }
             .infographic-col {
                 border-right: none;
                 border-bottom: 1px solid #E0E5EA;
                 padding: 20px;
+                position: static;
             }
         }
     </style>
@@ -260,22 +358,31 @@
     <p>First-Floor Flat · Leasehold · Glow-worm Compact 24c</p>
     <h1>Central Heating Reroute Guide</h1>
     <p>Above-surface 15mm copper two-pipe system · Pegler Tectite Sprint</p>
+    <div class="header-links">
+        <a href="central_heating_reroute_guide-v4.pdf" target="_blank">📄 Download Full PDF Guide</a>
+    </div>
 </header>
 
 <!-- Navigation -->
 <nav class="stage-nav">
     <button class="stage-btn active" onclick="showStage(1)">01 Approvals</button>
+    <button class="stage-btn" onclick="showStage(2)">02 Measurement</button>
+    <button class="stage-btn" onclick="showStage(3)">03 Draining</button>
+    <button class="stage-btn" onclick="showStage(4)">04 Routing</button>
     <button class="stage-btn" onclick="showStage(5)">05 Push-Fit Prep</button>
-    <button class="stage-btn" onclick="showStage(8)">08 Boiler Reconnect</button>
+    <button class="stage-btn" onclick="showStage(6)">06 Branches</button>
+    <button class="stage-btn" onclick="showStage(7)">07 Loop Closure</button>
+    <button class="stage-btn" onclick="showStage(8)">08 Reconnect</button>
+    <button class="stage-btn" onclick="showStage(9)">09 Testing</button>
+    <button class="stage-btn" onclick="showStage(10)">10 Boxing In</button>
 </nav>
 
 <div class="container">
     
-    <!-- STAGE 1 CONTENT -->
+    <!-- STAGE 1 -->
     <div id="stage-1" class="stage-content active">
         <div class="infographic-col">
-            <!-- Replace src with the image you generate using the prompts above -->
-            <img src="images/stage_1_pre_work_approvals-v2.jpg" alt="Stage 1 Infographic">
+            <img src="images/stage_1_pre_work_approvals-v2.jpg" alt="Stage 1 Pre-Work Approvals">
         </div>
         <div class="text-col">
             <span class="stage-tag">Stage 1 of 10</span>
@@ -285,10 +392,9 @@
             <ul class="action-list">
                 <li>✅ <b>Freeholder Consent:</b> Obtain formal written permission to alter above-surface pipework.</li>
                 <li>✅ <b>Insurer Notification:</b> Email your insurer confirming DIY water-side work only; Gas Safe handles the boiler.</li>
-                <li>🛑 <b>Stop Condition:</b> Do not order materials, drill, or cut until professional route approval is recorded.</li>
+                <li class="warning">🛑 <b>Stop Condition:</b> Do not order materials, drill, or cut until professional route approval is recorded.</li>
             </ul>
 
-            <!-- Deep Dive Toggle -->
             <button class="deep-dive-btn" onclick="toggleDeepDive('dd-1')">
                 <span>💡 Deep Dive: Why does this matter?</span>
                 <span>▼</span>
@@ -300,25 +406,166 @@
                 <p>You can legally cut/join copper flow and return pipes. You <b>cannot</b> touch the gas supply pipe or disconnect the boiler's gas connection. Only a Gas Safe engineer can do this.</p>
             </div>
 
-            <!-- Plumber Sign Off -->
-            <div class="signoff-section">
-                <h3>📋 Professional Sign-Off</h3>
-                <label class="checkbox-container">
-                    <input type="checkbox" id="s1-check1" onchange="saveSignoff(this)">
-                    Engineer verifies the 15mm route plan
-                </label>
-                <label class="checkbox-container">
-                    <input type="checkbox" id="s1-check2" onchange="saveSignoff(this)">
-                    Boiler manual downloaded & available on site
-                </label>
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s1-check1" onchange="saveSignoff(this)"> Engineer verifies the 15mm route plan</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s1-check2" onchange="saveSignoff(this)"> Boiler manual downloaded & available on site</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s1" placeholder="Record leaseholder consent details, insurer response dates, etc..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s1')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s1', 'Stage 1: Pre-Work Approvals')">💬 Send to Jonathan</button>
+                        <span id="saved-s1" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- STAGE 5 CONTENT -->
+    <!-- STAGE 2 -->
+    <div id="stage-2" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_2_route_measurement-v2.jpg" alt="Stage 2 Route Measurement">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 2 of 10</span>
+            <h2>Route Measurement & Mapping</h2>
+            <p class="tldr">TL;DR: Physically measure the route on site; never rely solely on floor plans.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Measure Physical Runs:</b> Record each proposed route segment including vertical changes and wall penetrations.</li>
+                <li>✅ <b>Record Differences:</b> Note flow and return routes separately where their paths differ.</li>
+                <li>✅ <b>Verify Outer Diameter:</b> Measure the existing boiler stubs with a metal vernier caliper.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-2')">
+                <span>💡 Deep Dive: Calculations</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-2" class="deep-dive-content">
+                <h4>The 10% Waste Rule</h4>
+                <p>Calculate total pipe by doubling the one-way distance for both flow and return lines, then add 10% for cutting waste. (e.g. 22.8m one-way = 45.6m + 10% = ~51m).</p>
+                <h4>15mm Outside Diameter (OD)</h4>
+                <p>15mm refers to the outside diameter; ensure domestic-hot-water pipes (usually 22mm) remain untouched.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s2-check1" onchange="saveSignoff(this)"> Physical measurements verified against plan</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s2-check2" onchange="saveSignoff(this)"> Plumber confirms exact material schedule</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s2" placeholder="Record exact measurements, offsets, and material quantities..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s2')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s2', 'Stage 2: Route Measurement')">💬 Send to Jonathan</button>
+                        <span id="saved-s2" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 3 -->
+    <div id="stage-3" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_3_drainage_and_isolation.jpg" alt="Stage 3 Safe Draining">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 3 of 10</span>
+            <h2>Safe Draining & Isolation</h2>
+            <p class="tldr">TL;DR: Isolate power, cool, drain to 0 bar, and protect flooring from black magnetite sludge.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Power Down:</b> Switch off the fused spur and use a voltage tester to verify zero power.</li>
+                <li>✅ <b>Cool & Protect:</b> Wait 1 hour for cooling. Lay towels and prepare a wet vacuum for spills.</li>
+                <li>✅ <b>Connect & Drain:</b> Attach garden hose to drain valve, open radiator bleed valves, and drain slowly.</li>
+                <li class="warning">🛑 <b>Verify Zero Pressure:</b> The boiler pressure gauge must read exactly 0 bar before cutting any pipework.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-3')">
+                <span>💡 Deep Dive: Chemical Risks</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-3" class="deep-dive-content">
+                <h4>Magnetite & Chemical Risks</h4>
+                <p>System water contains black iron oxide sludge (magnetite) and chemical inhibitors. This will permanently stain carpets and flooring if spilled. Always ensure the hose is secure and bucket is ready.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s3-check1" onchange="saveSignoff(this)"> Electrical isolation confirmed dead</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s3-check2" onchange="saveSignoff(this)"> Gauge reads 0 bar & flow has completely stopped</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s3" placeholder="Record water condition, sludge presence, or draining issues..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s3')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s3', 'Stage 3: Safe Draining')">💬 Send to Jonathan</button>
+                        <span id="saved-s3" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 4 -->
+    <div id="stage-4" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_4_wall_penetrations-v3.jpg" alt="Stage 4 Penetrations">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 4 of 10</span>
+            <h2>Route and Penetrations</h2>
+            <p class="tldr">TL;DR: Scan walls before drilling, use sleeves for holes, and secure strictly two pipes with rubber-lined clips.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Scan & Mark:</b> Use a multi-detector to scan BOTH sides of every partition wall before marking.</li>
+                <li>✅ <b>Drill Penetrations:</b> Confirm hole diameters and sleeve methods with a plumber to account for insulation.</li>
+                <li>✅ <b>Secure Clips:</b> Fit sleeves and rubber-lined cushioned clips to reduce 'ticking' noises from thermal expansion.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-4')">
+                <span>💡 Deep Dive: Spacing & Hazards</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-4" class="deep-dive-content">
+                <h4>Hidden Electrical Hazards</h4>
+                <p>Cables often run vertically and horizontally from sockets—exactly where skirting board clips are installed. Scan relentlessly.</p>
+                <h4>Approved Support Spacing</h4>
+                <p>Install clips at approximately 600mm horizontal and 1.2m vertical intervals.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s4-check1" onchange="saveSignoff(this)"> Wall faces scanned & sleeves fitted</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s4-check2" onchange="saveSignoff(this)"> Clips installed at approved 600mm spacing</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s4" placeholder="Record hole sizes used, sleeve types, or routing obstacles..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s4')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s4', 'Stage 4: Route and Penetrations')">💬 Send to Jonathan</button>
+                        <span id="saved-s4" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 5 -->
     <div id="stage-5" class="stage-content">
         <div class="infographic-col">
-            <img src="images/stage_5_golden_sequence-v3.jpg" alt="Stage 5 Infographic">
+            <img src="images/stage_5_golden_sequence-v3.jpg" alt="Stage 5 Push-Fit Prep">
         </div>
         <div class="text-col">
             <span class="stage-tag">Stage 5 of 10</span>
@@ -339,26 +586,258 @@
             </button>
             <div id="dd-5" class="deep-dive-content">
                 <h4>Protecting the O-Ring</h4>
-                <p>A hacksaw leaves a ragged, angled edge. When you push this edge into a Tectite Sprint fitting, it slices the internal rubber O-ring. It might hold pressure initially, but it will eventually fail. Behind boxing in a first-floor flat, this is a five-figure disaster.</p>
+                <p>A hacksaw leaves a ragged, angled edge. When you push this edge into a Tectite Sprint fitting, it slices the internal rubber O-ring. It might hold pressure initially, but it will eventually fail. Behind boxing in a first-floor flat, this is a catastrophic disaster.</p>
             </div>
 
-            <div class="signoff-section">
-                <h3>📋 Professional Sign-Off</h3>
-                <label class="checkbox-container">
-                    <input type="checkbox" id="s5-check1" onchange="saveSignoff(this)">
-                    Homeowner demonstrates perfect Golden Sequence technique
-                </label>
-                <label class="checkbox-container">
-                    <input type="checkbox" id="s5-check2" onchange="saveSignoff(this)">
-                    All visible joints are fully inserted to the depth mark
-                </label>
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s5-check1" onchange="saveSignoff(this)"> Perfect Golden Sequence technique demonstrated</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s5-check2" onchange="saveSignoff(this)"> All joints are fully inserted to the depth mark</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s5" placeholder="Record insertion depths used or fitting issues..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s5')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s5', 'Stage 5: Push-Fit Prep')">💬 Send to Jonathan</button>
+                        <span id="saved-s5" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    
-    <!-- (You can copy and paste the above stage blocks to build out all 10 stages) -->
+
+    <!-- STAGE 6 -->
+    <div id="stage-6" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_6_radiator_branches-v4.jpg" alt="Stage 6 Radiator Branches">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 6 of 10</span>
+            <h2>Radiator Branchwork</h2>
+            <p class="tldr">TL;DR: Use parallel equal tees to branch up to radiators R1 and R2 while main trunks continue.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Continuous Mains:</b> The 15mm main trunks must continue past radiators R1 & R2.</li>
+                <li>✅ <b>Tee Insertion:</b> Cut the mains and insert 15x15x15mm Tectite Equal Tees.</li>
+                <li>✅ <b>Upward Branches:</b> Run short vertical copper stubs up to the radiator valve inlets.</li>
+                <li class="warning">🛑 <b>Confirm TRV side:</b> Do not infer flow direction from left/right valve position. The engineer must confirm TRV (flow side) orientation on site.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-6')">
+                <span>💡 Deep Dive: Parallel vs Series</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-6" class="deep-dive-content">
+                <h4>Parallel Connection</h4>
+                <p>Each radiator bridges independently between flow and return mains to ensure proper circulation. Connecting radiators in series will result in sequential heat loss and a cold final radiator.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s6-check1" onchange="saveSignoff(this)"> Main trunks continue past R1 and R2 tees</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s6-check2" onchange="saveSignoff(this)"> TRVs fitted to confirmed flow side</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s6" placeholder="Record valve orientations, branch sizes, and joint visibility..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s6')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s6', 'Stage 6: Radiator Branches')">💬 Send to Jonathan</button>
+                        <span id="saved-s6" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 7 -->
+    <div id="stage-7" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_7_final_loop_closure.jpg" alt="Stage 7 Loop Closure">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 7 of 10</span>
+            <h2>Terminal Loop Closure (R3)</h2>
+            <p class="tldr">TL;DR: The physical loop ends at Bedroom 2. Use elbows (not tees), then trace the return back to the boiler.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>No Tees at R3:</b> The trunks hit 90° terminal elbows and turn directly up into the R3 radiator valves.</li>
+                <li>✅ <b>The Bridge:</b> Do NOT join the red flow and blue return pipes directly together. The radiator itself acts as the final bridge.</li>
+                <li>✅ <b>Continuous Return:</b> Follow the blue return pipe continuously back to the boiler to ensure it is unbroken.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-7')">
+                <span>💡 Deep Dive: Tracing the Route</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-7" class="deep-dive-content">
+                <h4>Visual Verification</h4>
+                <p>Visual inspection cannot establish that a system is leak-free before it is filled. This stage is a visible-installation check only to ensure the return path is continuous and no accidental dead-ends exist.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s7-check1" onchange="saveSignoff(this)"> No tees used at R3 terminal</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s7-check2" onchange="saveSignoff(this)"> Return route hand-traced back to boiler area</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s7" placeholder="Record loop closure observations..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s7')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s7', 'Stage 7: Loop Closure')">💬 Send to Jonathan</button>
+                        <span id="saved-s7" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 8 -->
+    <div id="stage-8" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_8_gas_safe_reconnection-v5.jpg" alt="Stage 8 Gas Safe Reconnection">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 8 of 10</span>
+            <h2>Professional Reconnection</h2>
+            <p class="tldr">TL;DR: Present your visible pipework, step back, and let the Gas Safe professional handle the boiler internals.</p>
+            
+            <ul class="action-list">
+                <li class="warning">🛑 <b>STOP - Engineer Required:</b> The engineer must positively identify flow/return on-site using the Glow-worm manual.</li>
+                <li>✅ <b>Boundary:</b> Do NOT cut or reconnect boiler pipes based on diagrams or handle colours yourself.</li>
+                <li>✅ <b>Record:</b> Capture the engineer’s name, Gas Safe registration number, and the chosen connection method.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-8')">
+                <span>💡 Deep Dive: The Legal Boundary</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-8" class="deep-dive-content">
+                <h4>You own the water. The professional owns the gas.</h4>
+                <p>Connecting gas appliances without Gas Safe registration is illegal and will void your home insurance. The homeowner prepares the visible copper stubs; the engineer physically reconnects them to the boiler block.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s8-check1" onchange="saveSignoff(this)"> Engineer identified flow/return on site</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s8-check2" onchange="saveSignoff(this)"> Boiler connections made by Gas Safe Pro</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s8" placeholder="Record Engineer name, Gas Safe Number, and connection notes..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s8')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s8', 'Stage 8: Reconnection')">💬 Send to Jonathan</button>
+                        <span id="saved-s8" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 9 -->
+    <div id="stage-9" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_9_system_refill_and_testing-v3.jpg" alt="Stage 9 Testing and Refill">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 9 of 10</span>
+            <h2>Pressure Testing & Dosing</h2>
+            <p class="tldr">TL;DR: Fill system, check every single joint relentlessly with blue roll, and apply inhibitor.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>System Fill:</b> Fill slowly via the braided loop to the engineer-specified pressure (usually 1.0-1.5 bar).</li>
+                <li>✅ <b>Bleed:</b> Systematically bleed radiators (R1, R2, R3).</li>
+                <li>⭐ <b>The Blue Roll Test:</b> Wipe dry blue tissue around EVERY single push-fit and compression nut.</li>
+                <li>✅ <b>Dosing:</b> Add chemical inhibitor as specified by the engineer.</li>
+                <li class="warning">🛑 <b>Dampness = Failure:</b> Any dampness on the blue roll requires immediate resolution. Do not conceal a weeping joint.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-9')">
+                <span>💡 Deep Dive: The Observation Period</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-9" class="deep-dive-content">
+                <h4>Never Box In Too Early</h4>
+                <p>Keep pipework fully exposed until the agreed monitoring period (hot and cold cycles) has passed without unresolved pressure drops or leaks.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s9-check1" onchange="saveSignoff(this)"> Pressure steady at specified bar</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s9-check2" onchange="saveSignoff(this)"> 100% dry pass on Blue Roll wipe test</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s9" placeholder="Record pressure readings, inhibitor brand/dose, test durations..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s9')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s9', 'Stage 9: Testing')">💬 Send to Jonathan</button>
+                        <span id="saved-s9" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- STAGE 10 -->
+    <div id="stage-10" class="stage-content">
+        <div class="infographic-col">
+            <img src="images/stage_10_aesthetic_boxing_in-v4.jpg" alt="Stage 10 Boxing In">
+        </div>
+        <div class="text-col">
+            <span class="stage-tag">Stage 10 of 10</span>
+            <h2>Aesthetic Boxing In</h2>
+            <p class="tldr">TL;DR: Hide the pipes, but never bury the joints. Ensure expansion gaps and access hatches.</p>
+            
+            <ul class="action-list">
+                <li>✅ <b>Frame:</b> Fix 25x38mm timber battens securely above and below the pipe run.</li>
+                <li>✅ <b>Fascia:</b> Use 160mm wide MDF strips to allow room for future water pipes.</li>
+                <li>✅ <b>Thermal Gap:</b> Leave 5-10mm expansion gaps at the ends of the run (copper expands when heated).</li>
+                <li class="warning">🛑 <b>The Golden Rule:</b> Magnetic access hatches (min 150x150mm) are strictly required at every single fitting/valve location. Never permanently bury a joint.</li>
+            </ul>
+
+            <button class="deep-dive-btn" onclick="toggleDeepDive('dd-10')">
+                <span>💡 Deep Dive: Expansion</span>
+                <span>▼</span>
+            </button>
+            <div id="dd-10" class="deep-dive-content">
+                <h4>Thermal Movement</h4>
+                <p>Copper pipes expand when heated. A 5m run of copper pipe will expand by approximately 5mm when heated from cold to operating temperature. If you box them in tightly with expanding foam or tight wood, they will buckle or snap the push-fit O-rings.</p>
+            </div>
+
+            <div class="interactive-panel">
+                <div class="signoff-section">
+                    <h3>📋 Professional Sign-Off</h3>
+                    <label class="checkbox-container"><input type="checkbox" id="s10-check1" onchange="saveSignoff(this)"> Magnetic access hatches installed at all joints</label>
+                    <label class="checkbox-container"><input type="checkbox" id="s10-check2" onchange="saveSignoff(this)"> Expansion gaps left at ends of runs</label>
+                </div>
+                <div class="notes-section">
+                    <h3>📝 Stage Notes</h3>
+                    <textarea id="notes-s10" placeholder="Record hatch locations, paint colours used, etc..."></textarea>
+                    <div class="notes-actions">
+                        <button class="btn-save" onclick="saveNotes('s10')">💾 Save Notes</button>
+                        <button class="btn-whatsapp" onclick="sendWhatsApp('s10', 'Stage 10: Boxing In')">💬 Send to Jonathan</button>
+                        <span id="saved-s10" class="saved-indicator">Saved!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+
+<footer>
+    <p>Central Heating Loop Replacement · Glow-worm Compact 24c-AS/1 · First Floor Leasehold Flat</p>
+    <p>PROVISIONAL — Not installation approval. All pipe sizes, routes, boiler connections, penetrations, fittings, test criteria and commissioning steps require on-site approval by a qualified heating engineer.</p>
+</footer>
 
 <script>
     // Stage Navigation Logic
@@ -374,7 +853,12 @@
         
         // Show target stage and highlight button
         document.getElementById('stage-' + stageNum).classList.add('active');
-        event.target.classList.add('active');
+        // Find the button that was clicked and activate it
+        const buttons = document.querySelectorAll('.stage-btn');
+        buttons[stageNum-1].classList.add('active');
+        
+        // Scroll to top
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
     // Deep Dive Accordion Logic
@@ -387,18 +871,58 @@
         }
     }
 
-    // Plumber Sign-Off LocalStorage Logic (Saves ticks automatically)
+    // Sign-Off LocalStorage Logic
     function saveSignoff(checkbox) {
         localStorage.setItem(checkbox.id, checkbox.checked);
     }
 
-    // Load saved checkboxes on page load
+    // Notes LocalStorage Logic
+    function saveNotes(stageId) {
+        const textarea = document.getElementById('notes-' + stageId);
+        localStorage.setItem('notes-' + stageId, textarea.value);
+        
+        // Show "Saved!" indicator temporarily
+        const indicator = document.getElementById('saved-' + stageId);
+        indicator.style.opacity = '1';
+        setTimeout(() => {
+            indicator.style.opacity = '0';
+        }, 2000);
+    }
+
+    // WhatsApp Logic
+    function sendWhatsApp(stageId, stageTitle) {
+        const textarea = document.getElementById('notes-' + stageId);
+        const text = textarea.value.trim();
+        if(!text) {
+            alert("Please write a note before sending.");
+            return;
+        }
+        
+        // Save notes automatically before sending
+        saveNotes(stageId);
+        
+        const message = (stageTitle + '\n\n' + text).trim();
+        const url = 'https://wa.me/447311042835?text=' + encodeURIComponent(message);
+        window.open(url, '_blank');
+    }
+
+    // Load saved data on page load
     window.onload = function() {
+        // Load Checkboxes
         const checkboxes = document.querySelectorAll('input[type="checkbox"]');
         checkboxes.forEach(box => {
             const savedState = localStorage.getItem(box.id);
             if (savedState === 'true') {
                 box.checked = true;
+            }
+        });
+        
+        // Load Notes
+        const textareas = document.querySelectorAll('textarea');
+        textareas.forEach(ta => {
+            const savedNote = localStorage.getItem(ta.id);
+            if (savedNote) {
+                ta.value = savedNote;
             }
         });
     };
